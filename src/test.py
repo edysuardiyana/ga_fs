@@ -1,5 +1,10 @@
-import initiate_population as ip
+import cross_over as co
 
-array_pop = ip.gen_pop(10,3)
 
-print array_pop
+p1 = [1,1,1,1,1,1]
+p2 = [0,0,0,0,0,0]
+
+#p1,p2 = co.cross_over_funct(p1,p2)
+
+print p1 == p2
+#print p2
