@@ -1,10 +1,6 @@
-import cross_over as co
+import selection_funct as sf
 
+p1, p2 = sf.select_parent(10)
 
-p1 = [1,1,1,1,1,1]
-p2 = [0,0,0,0,0,0]
-
-#p1,p2 = co.cross_over_funct(p1,p2)
-
-print p1 == p2
-#print p2
+print p1
+print p2
