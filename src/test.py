@@ -1,6 +1,8 @@
-import selection_funct as sf
+import mutation_funct as mf
 
-p1, p2 = sf.select_parent(10)
+p = [0,0,0,0,0,0,0,1,1,1,1,1,1,1]
+flag, new_p = mf.mutate(p)
 
-print p1
-print p2
+print p
+print flag
+print new_p
