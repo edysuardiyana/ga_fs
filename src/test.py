@@ -2,18 +2,29 @@ import combined_features as cf
 
 def main():
     final_array = []
-    zero = [0] * 5
+    zero = [1] * 2
+    x = []
+    y = []
+    z = []
 
-    x = [zero] * 3
+    for i in range(1):
+        x.append(zero)
 
-    y = [zero] * 3
+    for j in range(3):
+        y.append(zero)
 
-    z = [zero] * 4
+    for k in range(2):
+        z.append(zero)
+
+    print x
+    print y
+    print z
 
     final_array = cf.main_combined(x,y,z)
 
-    print len(final_array)
 
+    print len(final_array)
+    print final_array
 
 if __name__ == '__main__':
     main()

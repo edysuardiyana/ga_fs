@@ -79,7 +79,6 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
 
     #condition for the last elements
     if ct_t:
-
         wt_t, waist_temp = check_next_sensor(waist_temp, annot_ct)
         tt_t, thigh_temp = check_next_sensor(thigh_temp, annot_ct)
         temp_final = combined_funct(ct_t, wt_t, tt_t)
@@ -91,13 +90,36 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
 def combined_funct(chest, waist, thigh):
     final_array = []
     temp_final = []
+    temp_chest = []
+    temp_waist = []
+    temp_thigh = []
     for i in range(len(chest)):
-        temp_final.extend(chest[i])
+        elem_chest = chest[i]
+        annot = elem_chest[len(elem_chest)-1]
+        for ii in range(len(elem_chest)-1):
+            temp_chest.append(elem_chest[ii])
+
         for j in range(len(waist)):
-            temp_final.extend(waist[j])
+            elem_waist = waist[j]
+            for jj in range(len(elem_waist)-1):
+                temp_waist.append(elem_waist[jj])
+
             for k in range(len(thigh)):
-                temp_final.extend(thigh[k])
+                elem_thigh = thigh[k]
+                for kk in range(len(elem_thigh)-1):
+                    temp_thigh.append(elem_thigh[kk])
+
+                temp_final.extend(temp_chest)
+                temp_final.extend(temp_waist)
+                temp_final.extend(temp_thigh)
+                temp_final.append(annot)
                 final_array.append(temp_final)
+
+                temp_final = []
+                temp_thigh = []
+
+            temp_waist = []
+        temp_chest = []
 
     return final_array
 
@@ -108,22 +130,21 @@ def check_next_sensor(array, annot):
     temp_row = array[count]
     temp_annot = temp_row[len(temp_row)-1]
 
-    while flag_count:
+    while flag_count and count < len(array):
+        temp_row = array[count]
+        temp_annot = temp_row[len(temp_row)-1]
         if count == 0:
-            while temp_annot != annot:
+            if temp_annot != annot:
                 del array[count]
+            else:
+                new_temp.append(temp_row)
                 count += 1
+        else:
+            if temp_annot == annot :
                 temp_row = array[count]
                 temp_annot = temp_row[len(temp_row)-1]
                 new_temp.append(temp_row)
+                count += 1
             else:
-                while temp_annot == annot and count < len(array):
-                    temp_row = array[count]
-                    temp_annot = temp_row[len(temp_row)-1]
-                    new_temp.append(temp_row)
-                    count += 1
-
                 flag_count = False
-
-    print new_temp
     return new_temp, array
