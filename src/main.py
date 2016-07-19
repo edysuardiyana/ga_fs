@@ -3,22 +3,23 @@ import fitness_function
 import initiate_population
 import mutation_funct
 import selection_funct
-import source_reader as sc
-
+import source_reader as src
+import combined_features as cf
+import csv
 
 def main():
+    combined_array = []
     #read names from list
     name_list = read_name()
-
     #combined features from three different places
-
+    cf.combined_features(name_list)
 
     # generate initial population
 
 
 def read_name():
     name_list = []
-    path = sc.listname_path()
+    path = src.listname_path()
 
     with open(path) as obj_name:
         for line in obj_name:
@@ -28,7 +29,6 @@ def read_name():
 
     return name_list
 
-def combined_feat():
 
 if __name__ == '__main__':
     main()

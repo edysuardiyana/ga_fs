@@ -98,3 +98,132 @@ class combined_test(unittest.TestCase):
         final_array = cf.main_combined(x,y,z)
 
         self.assertEqual(len(final_array),2)
+
+    def combined_5_test(self):
+        final_array = []
+        zero = [1] * 2
+        x = []
+        y = []
+        z = []
+
+        for i in range(1):
+            x.append(zero)
+
+        for j in range(3):
+            y.append(zero)
+
+        for k in range(2):
+            z.append(zero)
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array),6)
+
+    def combined_6_test(self):
+        final_array = []
+        zero = [0] * 2
+        one = [1] * 2
+        x = []
+        y = []
+        z = []
+
+        for i in range(2):
+            if i == 0:
+                x.append(one)
+            else:
+                x.append(zero)
+
+        for j in range(4):
+            if j == 0 or j == 1:
+                y.append(one)
+            else:
+                y.append(zero)
+
+        for k in range(6):
+            if k == 0 or k == 1 or k == 2:
+                z.append(one)
+            else:
+                z.append(zero)
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array),12)
+
+    def combined_7_test(self):
+        final_array = []
+        zero = [0] * 2
+        one = [1] * 2
+        x = []
+        y = []
+        z = []
+
+        for i in range(3):
+            if i == 0 or i == 2:
+                x.append(one)
+            else:
+                x.append(zero)
+
+        for j in range(6):
+            if j == 0 or j == 1 or j==4 or j==5:
+                y.append(one)
+            else:
+                y.append(zero)
+
+        for k in range(9):
+            if k == 0 or k == 1 or k == 2 or k == 6 or k == 7 or k == 8 :
+                z.append(one)
+            else:
+                z.append(zero)
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array), 18)
+
+    def combined_8_test(self):
+        final_array = []
+        zero = [0] * 2
+        one = [1] * 2
+        x = []
+        y = []
+        z = []
+
+        for i in range(1):
+            if i == 0 :
+                x.append(one)
+            else:
+                x.append(zero)
+
+        for j in range(2):
+            if j == 0 :
+                y.append(zero)
+            else:
+                y.append(one)
+
+        for k in range(3):
+            z.append(one)
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array),3)
+
+    def combined_9_test(self):
+        final_array = []
+        zero = [0] * 2
+        one = [1] * 2
+        x = []
+        y = []
+        z = []
+
+        for i in range(1):
+            if i == 0 :
+                x.append(one)
+            else:
+                x.append(zero)
+
+        for j in range(2):
+            y.append(one)
+
+        for k in range(4):
+            if k == 0:
+                z.append(zero)
+            else:
+                z.append(one)
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array), 6)
