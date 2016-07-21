@@ -58,6 +58,7 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
         #print "final array"
         #print final_array
         #collecting data from chest sensor
+
         if not ct and chest_temp :
             c_flag = True
             while c_flag :
@@ -73,9 +74,11 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
             if waist_temp:
                 c_zero = [0] * (general_length)
                 c_zero.append(annot_w)
+                annot_c = annot_w
             else:
                 c_zero = [0] * (general_length)
                 c_zero.append(annot_t)
+                annot_c = annot_t
             ct.append(c_zero)
 
 
@@ -95,9 +98,11 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
             if chest_temp:
                 w_zero = [0] * (general_length)
                 w_zero.append(annot_c)
+                annot_w = annot_c
             else:
                 w_zero = [0] *(general_length)
                 w_zero.append(annot_t)
+                annot_w = annot_c
             wt.append(w_zero)
 
         #collecting data from thigh
@@ -116,13 +121,15 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
             if chest_temp:
                 t_zero = [0] * (general_length)
                 t_zero.append(annot_c)
+                annot_t = annot_c
             else:
                 t_zero = [0] * (general_length)
                 t_zero.append(annot_w)
+                annot_t = annot_w
             tt.append(t_zero)
 
         if annot_c == annot_t and annot_c != annot_w:
-            print "first if"
+            #print "first if"
             run_flag = True
             if not chest_temp:
                 run_flag = False
@@ -165,7 +172,7 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                     annot_w = waist_temp[0][general_length]
 
         elif annot_w == annot_t and annot_c != annot_w:
-            print "second if"
+            #print "second if"
             run_flag = True
             if not waist_temp:
                 run_flag = False
@@ -175,7 +182,7 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                 run_flag = True
             else:
                 run_flag = False
-
+            #print run_flag
             if run_flag:
                 c_zero = []
                 raw_c_zero = [0] * (general_length)
@@ -208,7 +215,7 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                     annot_c = chest_temp[0][general_length]
 
         elif annot_c != annot_t and annot_c == annot_w:
-            print "third if"
+            #print "third if"
             run_flag = True
             if not chest_temp:
                 run_flag = False
@@ -240,7 +247,7 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
 
                 c_zero = []
                 raw_c_zero = [0] * (general_length)
-                raw_wczero.append(annot_t)
+                raw_c_zero.append(annot_t)
                 c_zero.append(raw_c_zero)
                 temp_fin_array = combined_funct(c_zero, w_zero, tt)
                 final_array.extend(temp_fin_array)
@@ -249,13 +256,6 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                     annot_t = thigh_temp[0][general_length]
 
         else:
-            print "fourth if"
-            print "ct: "
-            print ct
-            print "wt: "
-            print wt
-            print "tt: "
-            print tt
             temp_fin_array = combined_funct(ct, wt, tt)
             final_array.extend(temp_fin_array)
             ct = []
