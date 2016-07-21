@@ -46,119 +46,228 @@ def write_combined_data(name, data):
     out_file.close()
 
 def main_combined(chest_temp, waist_temp, thigh_temp):
-    combined_data = []
-    com_temp = []
-    count_chest = 0
-    count_waist = 0
-    count_thigh = 0
-
-    ct_t = []
-    wt_t = []
-    tt_t = []
-
+    ct = []
+    wt = []
+    tt = []
     final_array = []
-
-    annot_ct = None
-    while count_chest < len(chest_temp):
-
-        row_chest = chest_temp[count_chest]
-        temp_annot_chest = row_chest[len(row_chest)-1]
-        print "this is temp annot chest: " + str(temp_annot_chest)
-        #print "this is row chest:"
-        #print row_chest
-        #print "this is ct_t"
-        #print ct_t
-        print "this is annot ct: " + str(annot_ct)
-
-        if count_chest == 0: # first samples
-            #print "first sample"
-            annot_ct = row_chest[len(row_chest)-1]
-            count_chest += 1
-            ct_t.append(row_chest)
-        elif temp_annot_chest == annot_ct: # if same annot
-            #print "first sample sampe annot"
-            ct_t.append(row_chest)
-            count_chest += 1
-        else: # different annot
-            # if chest produce peak but the other sensors don't
-            #print "get here"
-            waist_annot_temp = waist_temp[0][len(waist_temp[0])-1]
-            thigh_annot_temp = thigh_temp[0][len(thigh_temp[0])-1]
-
-            print "this is chest : " + str(temp_annot_chest)
-            print "this is waist : " + str(waist_annot_temp)
-            print "this is thigh: "+ str(thigh_annot_temp)
-            print "this is waist length : " + str(len(waist_temp))
-            if annot_ct != waist_annot_temp and annot_ct != thigh_annot_temp and thigh_annot_temp == waist_annot_temp:
-                count_waist_temp = 1
-                count_thigh_temp = 1
-
-                #print "this is waist temp: "
-                #print waist_temp
-                while waist_annot_temp == waist_temp[count_waist_temp][len(waist_temp[0])-1]:
-                    count_waist_temp += 1
-                    #print "this is count_waist_temp: " + str(count_waist_temp)
-                    #print "this is waist temp len: " +str(len(waist_temp))
-
-                while thigh_annot_temp == thigh_temp[count_thigh_temp][len(thigh_temp[0])-1]:
-                    count_thigh_temp += 1
-
-                if annot_ct == waist_temp[count_waist_temp][len(waist_temp[0])-1] or annot_ct == thigh_temp[count_thigh_temp][len(thigh_temp[0])-1]:
-                    #print "get second the special if"
-                    wt_t, waist_temp = check_next_sensor(waist_temp, annot_ct)
-
-                    tt_t, thigh_temp = check_next_sensor(thigh_temp, annot_ct)
-
-                    temp_final = combined_funct(ct_t, wt_t, tt_t)
-                    final_array.extend(temp_final)
-                    ct_t = []
-                    wt_t = []
-                    tt_t = []
-
-                    #get the new sample
-                    annot_ct = temp_annot_chest
-                    count_chest += 1
-                    ct_t.append(row_chest)
+    annot_c = chest_temp[0][len(chest_temp[0])-1]
+    annot_w = waist_temp[0][len(waist_temp[0])-1]
+    annot_t = thigh_temp[0][len(thigh_temp[0])-1]
+    general_length = len(chest_temp[0])-1
+    while chest_temp or waist_temp or thigh_temp or wt or ct or tt:
+        #print "final array"
+        #print final_array
+        #collecting data from chest sensor
+        if not ct and chest_temp :
+            c_flag = True
+            while c_flag :
+                if chest_temp:
+                    if annot_c == chest_temp[0][general_length]:
+                        ct.append(chest_temp[0])
+                        del chest_temp[0]
+                    else:
+                        c_flag = False
                 else:
-                    #print "get first if"
-                    ct_t = []
-                    wt_t = []
-                    tt_t = []
-
-                    count_chest += 1
-                    row_chest = chest_temp[count_chest]
-                    annot_ct = row_chest[len(row_chest)-1]
-                    ct_t.append(row_chest)
-                    #count_chest += 1
+                    c_flag = False
+        elif not ct and not chest_temp:
+            if waist_temp:
+                c_zero = [0] * (general_length)
+                c_zero.append(annot_w)
             else:
-                #print "get second if"
-                wt_t, waist_temp = check_next_sensor(waist_temp, annot_ct)
+                c_zero = [0] * (general_length)
+                c_zero.append(annot_t)
+            ct.append(c_zero)
 
-                tt_t, thigh_temp = check_next_sensor(thigh_temp, annot_ct)
-                temp_final = combined_funct(ct_t, wt_t, tt_t)
-                final_array.extend(temp_final)
-                ct_t = []
-                wt_t = []
-                tt_t = []
 
-                #get the new sample
-                annot_ct = row_chest[len(row_chest)-1]
-                count_chest += 1
-                ct_t.append(row_chest)
-        #print "current annot: " + str(row_chest[len(row_chest)-1])
-        #print "saved annot: " + str(annot_ct)
+        #collecting data from waist sensor
+        if not wt and waist_temp:
+            w_flag = True
+            while w_flag:
+                if waist_temp:
+                    if annot_w == waist_temp[0][general_length]:
+                        wt.append(waist_temp[0])
+                        del waist_temp[0]
+                    else:
+                        w_flag = False
+                else:
+                    w_flag = False
+        elif not wt and not waist_temp:
+            if chest_temp:
+                w_zero = [0] * (general_length)
+                w_zero.append(annot_c)
+            else:
+                w_zero = [0] *(general_length)
+                w_zero.append(annot_t)
+            wt.append(w_zero)
 
-    #condition for the last elements
-    if ct_t:
-        #print "come here"
-        #print "waist: "
-        wt_t, waist_temp = check_next_sensor(waist_temp, annot_ct)
-        #print wt_t
-        #print "thigh: "
-        tt_t, thigh_temp = check_next_sensor(thigh_temp, annot_ct)
-        #print tt_t
-        temp_final = combined_funct(ct_t, wt_t, tt_t)
-        final_array.extend(temp_final)
+        #collecting data from thigh
+        if not tt and thigh_temp:
+            t_flag = True
+            while t_flag:
+                if thigh_temp:
+                    if annot_t == thigh_temp[0][general_length]:
+                        tt.append(thigh_temp[0])
+                        del thigh_temp[0]
+                    else:
+                        t_flag = False
+                else:
+                    t_flag = False
+        elif not tt and not thigh_temp:
+            if chest_temp:
+                t_zero = [0] * (general_length)
+                t_zero.append(annot_c)
+            else:
+                t_zero = [0] * (general_length)
+                t_zero.append(annot_w)
+            tt.append(t_zero)
+
+        if annot_c == annot_t and annot_c != annot_w:
+            print "first if"
+            run_flag = True
+            if not chest_temp:
+                run_flag = False
+            elif not waist:
+                run_flag = False
+            elif annot_w == chest_temp[0][general_length] or annot_w == thigh_temp[0][general_length] :
+                run_flag = True
+            else:
+                run_flag = False
+
+            print run_flag
+            if run_flag:
+                w_zero = []
+                raw_w_zero = [0] * (general_length)
+                raw_w_zero.append(annot_c)
+                w_zero.append(raw_w_zero)
+                temp_fin_array = combined_funct(ct, w_zero, tt)
+                final_array.extend(temp_fin_array)
+                ct = []
+                tt = []
+                if chest_temp:
+                    annot_c = chest_temp[0][general_length]
+                if thigh_temp:
+                    annot_t = thigh_temp[0][general_length]
+            else:
+                c_zero = []
+                raw_c_zero = [0] * (general_length)
+                raw_c_zero.append(annot_w)
+                c_zero.append(raw_c_zero)
+
+                t_zero = []
+                raw_t_zero = [0] * (general_length)
+                raw_t_zero.append(annot_w)
+                t_zero.append(raw_t_zero)
+
+                temp_fin_array = combined_funct(c_zero, wt, t_zero)
+                final_array.extend(temp_fin_array)
+                wt = []
+                if waist_temp:
+                    annot_w = waist_temp[0][general_length]
+
+        elif annot_w == annot_t and annot_c != annot_w:
+            print "second if"
+            run_flag = True
+            if not waist_temp:
+                run_flag = False
+            elif not thigh_temp:
+                run_flag = False
+            elif annot_c == thigh_temp[0][general_length] or annot_c == waist_temp[0][general_length]:
+                run_flag = True
+            else:
+                run_flag = False
+
+            if run_flag:
+                c_zero = []
+                raw_c_zero = [0] * (general_length)
+                raw_c_zero.append(annot_w)
+                c_zero.append(raw_c_zero)
+                temp_fin_array = combined_funct(c_zero, wt, tt)
+                final_array.extend(temp_fin_array)
+                wt = []
+                tt = []
+                if waist_temp:
+                    annot_w = waist_temp[0][general_length]
+                if thigh_temp:
+                    annot_t = thigh_temp[0][general_length]
+            else:
+                t_zero = []
+                raw_t_zero = [0] * (general_length)
+                raw_t_zero.append(annot_c)
+                t_zero.append(raw_t_zero)
+
+                w_zero = []
+                raw_w_zero = [0] * (general_length)
+                raw_w_zero.append(annot_c)
+                w_zero.append(raw_w_zero)
+
+                temp_fin_array = combined_funct(ct, w_zero, t_zero)
+                final_array.extend(temp_fin_array)
+                ct = []
+
+                if chest_temp:
+                    annot_c = chest_temp[0][general_length]
+
+        elif annot_c != annot_t and annot_c == annot_w:
+            print "third if"
+            run_flag = True
+            if not chest_temp:
+                run_flag = False
+            elif not waist_temp:
+                run_flag = False
+            elif annot_t == waist_temp[0][general_length] or annot_t == chest_temp[0][general_length]:
+                run_flag = True
+            else:
+                run_flag = False
+
+            if run_flag:
+                t_zero = []
+                raw_t_zero = [0] * (general_length)
+                raw_t_zero.append(annot_c)
+                t_zero.append(raw_t_zero)
+                temp_fin_array = combined_funct(ct, wt, t_zero)
+                final_array.extend(temp_fin_array)
+                ct = []
+                wt = []
+                if chest_temp:
+                    annot_c = chest_temp[0][general_length]
+                if waist_temp:
+                    annot_w = waist_temp[0][general_length]
+            else:
+                w_zero = []
+                raw_w_zero = [0] * (general_length)
+                raw_w_zero.append(annot_t)
+                w_zero.append(raw_w_zero)
+
+                c_zero = []
+                raw_c_zero = [0] * (general_length)
+                raw_wczero.append(annot_t)
+                c_zero.append(raw_c_zero)
+                temp_fin_array = combined_funct(c_zero, w_zero, tt)
+                final_array.extend(temp_fin_array)
+                tt = []
+                if thigh_temp:
+                    annot_t = thigh_temp[0][general_length]
+
+        else:
+            print "fourth if"
+            print "ct: "
+            print ct
+            print "wt: "
+            print wt
+            print "tt: "
+            print tt
+            temp_fin_array = combined_funct(ct, wt, tt)
+            final_array.extend(temp_fin_array)
+            ct = []
+            wt = []
+            tt = []
+
+            if chest_temp:
+                annot_c = chest_temp[0][general_length]
+            if waist_temp:
+                annot_w = waist_temp[0][general_length]
+            if thigh_temp:
+                annot_t = thigh_temp[0][general_length]
 
     return final_array
 

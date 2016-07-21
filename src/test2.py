@@ -1,8 +1,10 @@
-x = [1,2,3,5]
+x = True
+y = True
+z = True
+a = True
+b = False
 
-y = []
-
-for i in range(3):
-    y.append(x)
-
-print y[0][2]
+if x or y or z or a or b:
+    print "Yes"
+else:
+    print "No"
