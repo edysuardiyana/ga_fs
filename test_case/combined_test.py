@@ -217,7 +217,7 @@ class combined_test(unittest.TestCase):
 
 
         final_array = cf.main_combined(x,y,z)
-        self.assertEqual(len(final_array), 19)
+        self.assertEqual(len(final_array), 13)
 
     def combined_12_test(self):
         final_array = []
