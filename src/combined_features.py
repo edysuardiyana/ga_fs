@@ -133,15 +133,10 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                 run_flag = False
             elif not waist_temp:
                 run_flag = False
-            elif annot_w == chest_temp[0][general_length] or annot_w == thigh_temp[0][general_length] :
-                if not waist_temp:
-                    run_flag = True
-                elif annot_c == waist_temp[0][general_length] or annot_t == waist_temp[0][general_length]:
-                    run_flag = False
-                else:
-                    run_flag = True
-            else:
+            elif annot_c == waist_temp[0][general_length] or annot_t == waist_temp[0][general_length]:
                 run_flag = False
+            else:
+                run_flag = True
 
             print run_flag
             if run_flag:
@@ -183,21 +178,11 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
             elif not thigh_temp:
                 print "get here 2"
                 run_flag = False
-            elif annot_c == thigh_temp[0][general_length] or annot_c == waist_temp[0][general_length]:
-                print "annot w: " + str(annot_w)
-                print "annot t: " + str(annot_t)
-                print "chest temp: " + str(chest_temp[0][general_length])
-                #if not chest_temp:
-                #    run_flag = True
-                #elif annot_w == chest_temp[0][general_length] or annot_t == chest_temp[0][general_length]:
-                #    print "get here 3"
-                #    run_flag = True
-                #else:
-                #    run_flag = False
-                run_flag = True
+            elif annot_w == waist_temp[0][general_length] or annot_t == waist_temp[0][general_length]:
+                run_flag = False
             else:
                 print "get here 4"
-                run_flag = False
+                run_flag = True
             print run_flag
             if run_flag:
                 c_zero = []
@@ -237,15 +222,10 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                 run_flag = False
             elif not waist_temp:
                 run_flag = False
-            elif annot_t == waist_temp[0][general_length] or annot_t == chest_temp[0][general_length]:
-                if not thigh_temp:
-                    run_flag = True
-                elif annot_c == thigh_temp[0][general_length] or annot_w == thigh_temp[0][general_length]:
-                    run_flag = False
-                else:
-                    run_flag = True
-            else:
+            elif annot_c == thigh_temp[0][general_length] or annot_w == thigh_temp[0][general_length]:
                 run_flag = False
+            else:
+                run_flag = True
 
             print run_flag
 
