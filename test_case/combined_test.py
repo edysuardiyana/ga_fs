@@ -218,3 +218,30 @@ class combined_test(unittest.TestCase):
 
         final_array = cf.main_combined(x,y,z)
         self.assertEqual(len(final_array), 19)
+
+    def combined_12_test(self):
+        final_array = []
+        x = [[0,6],[0,0]]
+        y = [[0,6],[0,0]]
+        z = [[0,0],[0,0],[0,6]]
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array), 4)
+
+    def combined_13_test(self):
+        final_array = []
+        x = [[0,0],[0,0],[0,6]]
+        y = [[0,6],[0,0]]
+        z = [[0,6],[0,0]]
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array), 4)
+
+    def combined_14_test(self):
+        final_array = []
+        x = [[0,6],[0,0]]
+        y = [[0,0],[0,0],[0,6]]
+        z = [[0,6],[0,0]]
+
+        final_array = cf.main_combined(x,y,z)
+        self.assertEqual(len(final_array), 4)

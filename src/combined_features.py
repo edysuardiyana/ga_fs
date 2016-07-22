@@ -55,8 +55,6 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
     annot_t = thigh_temp[0][len(thigh_temp[0])-1]
     general_length = len(chest_temp[0])-1
     while chest_temp or waist_temp or thigh_temp or wt or ct or tt:
-        #print "final array"
-        #print final_array
         #collecting data from chest sensor
 
         if not ct and chest_temp :
@@ -129,18 +127,23 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
             tt.append(t_zero)
 
         if annot_c == annot_t and annot_c != annot_w:
-            #print "first if"
+            print "first if"
             run_flag = True
             if not chest_temp:
                 run_flag = False
-            elif not waist:
+            elif not waist_temp:
                 run_flag = False
             elif annot_w == chest_temp[0][general_length] or annot_w == thigh_temp[0][general_length] :
-                run_flag = True
+                if not waist_temp:
+                    run_flag = True
+                elif annot_c == waist_temp[0][general_length] or annot_t == waist_temp[0][general_length]:
+                    run_flag = True
+                else:
+                    run_flag = False
             else:
                 run_flag = False
 
-            print run_flag
+            #print run_flag
             if run_flag:
                 w_zero = []
                 raw_w_zero = [0] * (general_length)
@@ -172,17 +175,30 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                     annot_w = waist_temp[0][general_length]
 
         elif annot_w == annot_t and annot_c != annot_w:
-            #print "second if"
+            print "second if"
             run_flag = True
             if not waist_temp:
+                print "get here 1"
                 run_flag = False
             elif not thigh_temp:
+                print "get here 2"
                 run_flag = False
             elif annot_c == thigh_temp[0][general_length] or annot_c == waist_temp[0][general_length]:
-                run_flag = True
-            else:
+                print "annot w: " + str(annot_w)
+                print "annot t: " + str(annot_t)
+                print "chest temp: " + str(chest_temp[0][general_length])
+                #if not chest_temp:
+                #    run_flag = True
+                #elif annot_w == chest_temp[0][general_length] or annot_t == chest_temp[0][general_length]:
+                #    print "get here 3"
+                #    run_flag = True
+                #else:
+                #    run_flag = False
                 run_flag = False
-            #print run_flag
+            else:
+                print "get here 4"
+                run_flag = False
+            print run_flag
             if run_flag:
                 c_zero = []
                 raw_c_zero = [0] * (general_length)
@@ -215,16 +231,23 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                     annot_c = chest_temp[0][general_length]
 
         elif annot_c != annot_t and annot_c == annot_w:
-            #print "third if"
+            print "third if"
             run_flag = True
             if not chest_temp:
                 run_flag = False
             elif not waist_temp:
                 run_flag = False
             elif annot_t == waist_temp[0][general_length] or annot_t == chest_temp[0][general_length]:
-                run_flag = True
+                if not thigh_temp:
+                    run_flag = True
+                elif annot_c == thigh_temp[0][general_length] or annot_w == thigh_temp[0][general_length]:
+                    run_flag = False
+                else:
+                    run_flag = True
             else:
                 run_flag = False
+
+            print run_flag
 
             if run_flag:
                 t_zero = []
@@ -256,6 +279,7 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                     annot_t = thigh_temp[0][general_length]
 
         else:
+            print "fourth if"
             temp_fin_array = combined_funct(ct, wt, tt)
             final_array.extend(temp_fin_array)
             ct = []

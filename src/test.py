@@ -5,30 +5,19 @@ def main():
     #x = [[0,0],[0,7],[0,10]]
     #y = [[0,7],[0,10],[0,10]]
     #z = [[0,0],[0,0],[0,0],[0,7]]
-    #x = [zero] * 2
-    #y = [zero] * 1
-    #z = [zero] * 2
+    #zero = [0] * 5
 
-    zero = [0] * 2
-    one = [1] * 2
-    x = []
-    y = []
-    z = []
+    #x = [zero] * 5
+    #y = [zero] * 5
+    #z = [zero] * 4
 
-    for i in range(1):
-        if i == 0 :
-            x.append(one)
-        else:
-            x.append(zero)
+    #x = [[0,6],[0,0]]
+    #y = [[0,6],[0,0]]
+    #z = [[0,0],[0,0],[0,6]]
 
-    for j in range(2):
-        y.append(one)
-
-    for k in range(4):
-        if k == 0:
-            z.append(zero)
-        else:
-            z.append(one)
+    x = [[0,12],[0,13]]
+    y = [[0,0],[0,12],[0,0], [0,0], [0,13]]
+    z = [[0,0],[0,0], [0,12], [0,0], [0,0], [0,13]]
 
     print x
     print y
