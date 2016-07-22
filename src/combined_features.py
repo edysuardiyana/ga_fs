@@ -137,13 +137,13 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                 if not waist_temp:
                     run_flag = True
                 elif annot_c == waist_temp[0][general_length] or annot_t == waist_temp[0][general_length]:
-                    run_flag = True
-                else:
                     run_flag = False
+                else:
+                    run_flag = True
             else:
                 run_flag = False
 
-            #print run_flag
+            print run_flag
             if run_flag:
                 w_zero = []
                 raw_w_zero = [0] * (general_length)
@@ -194,7 +194,7 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                 #    run_flag = True
                 #else:
                 #    run_flag = False
-                run_flag = False
+                run_flag = True
             else:
                 print "get here 4"
                 run_flag = False
