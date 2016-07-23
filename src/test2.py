@@ -1,10 +1,7 @@
-x = True
-y = True
-z = True
-a = True
-b = False
+import combined_features as cf
 
-if x or y or z or a or b:
-    print "Yes"
-else:
-    print "No"
+x = [[0,0],[1,0],[2,0],[3,0]]
+y = [[4,0],[5,0],[6,0],[7,0]]
+
+z = cf.combined_funct(x,y)
+print z
