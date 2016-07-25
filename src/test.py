@@ -23,20 +23,35 @@ def main():
     #y = [[0,0],[0,0],[0,6]]
     #z = [[0,6],[0,0]]
 
-    zero = [0] * 5
-    x = [[0,6],[0,0],[0,7]]
-    y = [[0,6],[0,0],[0,0],[0,7]]
-    z = [[0,5],[0,0],[0,0],[0,6],[0,0],[0,0],[0,0],[0,7]]
+    x = []
+    y = []
+    z = []
+    for i in range(5):
+        temp_x = [0] * 5
+        if i == 0 or i == 1:
+            temp_x[len(temp_x)-1] = 1
+        elif i == 3:
+            temp_x[len(temp_x)-1] = 2
+
+        x.append(temp_x)
+
+    for j in range(7):
+        temp_y = [0] * 5
+        if j == 0 or j == 1 or j == 2:
+            temp_y[len(temp_y)-1] = 1
+        y.append(temp_y)
+
+    for k in range(10):
+        temp_z = [0] * 5
+        if k == 0 or k == 1 or k == 2 or k == 3:
+            temp_z[len(temp_z)-1] = 1
+        z.append(temp_z)
 
     print x
     print y
     print z
-    final_array = cf.main_combined(x,y,z)
-
-
-    print final_array
-
-    print len(final_array)
+    new_val = cf.main_combined(x,y,z)
+    print len(new_val)
 
 if __name__ == '__main__':
     main()

@@ -63,19 +63,19 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                 del chest_temp[count_c]
                 if count_c > 0:
                     count_c -= 1
-                len_temp_c = len(chest_temp)
             else:
                 count_c += 1
 
         #check_waist
         count_w = 0
-        len_temp_w = len(waist_temp)
         while count_w < len(waist_temp):
             if waist_temp[count_w][gen_len-1] == annot_c:
                 waist_array.append(waist_temp[count_w])
                 del waist_temp[count_w]
                 if count_w > 0:
                     count_w -= 1
+            else:
+                count_w += 1
         #check thigh
         count_t = 0
         len_temp_t = len(thigh_temp)
@@ -85,9 +85,13 @@ def main_combined(chest_temp, waist_temp, thigh_temp):
                 del thigh_temp[count_t]
                 if count_t > 0 :
                     count_t -= 1
+            else:
+                count_t += 1
 
-        temp_final = fuse_data(chest_array, waist_array, thigh_array)
-        final_array.extend(temp_final)
+        if len(chest_array) > 0 and len(waist_array) > 0 and len(thigh_array) > 0:
+            temp_final = fuse_data(chest_array, waist_array, thigh_array)
+            final_array.extend(temp_final)
+
         chest_array = []
         waist_array = []
         thigh_array = []
@@ -145,9 +149,8 @@ def add_miss_val(chest, waist, thigh):
 
 def calc_median(array):
     med_val = []
-    #get median for chest
-    len_array = len(array[0])-1 #do not include the annotation
-    annot = array[len_array]
+    len_array = len(array[0]) #do not include the annotation
+    annot = array[0][len_array-1]
     for i in range(len_array):
         temp = []
         for j in range(len(array)):
