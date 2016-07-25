@@ -1,5 +1,6 @@
 import csv
 import source_reader as src
+import statistics as stat
 
 def combined_features(list_name):
     combined_with_name = []
@@ -46,48 +47,115 @@ def write_combined_data(name, data):
     out_file.close()
 
 def main_combined(chest_temp, waist_temp, thigh_temp):
+    chest_array = []
+    waist_array = []
+    thigh_array = []
 
-    general_length = len(chest_temp[0])
-
-    ct = []
-    wt = []
-
-    while chest_temp or waist_temp or ct or wt:
-        final_array = []
-        ct_annot = chest_temp[0][general_length-1]
-        wt_annot = waist_temp[0][general_length-1]
-
-        while chest_temp[0][general_length-1] == ct_annot:
-            ct.append(chest_temp[count_c])
-            del chest_temp[0]
-
-        while waist_temp[0][general_length-1] == wt_annot:
-            wt.append(waist_temp(count_w))
-            del waist_temp[0]
-
-        if ct_annot == w_annot:
-            temp_fin = combined_funct(ct, wt)
-
-    return final_array
-
-
-def combined_funct(x, y):
     final_array = []
-    temp_final = []
-    temp_x = []
-    temp_y = []
+    gen_len = len(chest_temp[0])
+    while chest_temp:
+        #check the chest data
+        annot_c = chest_temp[0][gen_len-1]
+        count_c = 0
+        while count_c < len(chest_temp):
+            if chest_temp[count_c][gen_len-1] == annot_c:
+                chest_array.append(chest_temp[count_c])
+                del chest_temp[count_c]
+                if count_c > 0:
+                    count_c -= 1
+                len_temp_c = len(chest_temp)
+            else:
+                count_c += 1
 
-    for i in range(len(x)):
-        elem_x = x[i]
+        #check_waist
+        count_w = 0
+        len_temp_w = len(waist_temp)
+        while count_w < len(waist_temp):
+            if waist_temp[count_w][gen_len-1] == annot_c:
+                waist_array.append(waist_temp[count_w])
+                del waist_temp[count_w]
+                if count_w > 0:
+                    count_w -= 1
+        #check thigh
+        count_t = 0
+        len_temp_t = len(thigh_temp)
+        while count_t < len(thigh_temp):
+            if thigh_temp[count_t][gen_len-1] == annot_c:
+                thigh_array.append(thigh_temp[count_t])
+                del thigh_temp[count_t]
+                if count_t > 0 :
+                    count_t -= 1
 
-        annot = elem_x[len(elem_x)-1]
-
-        for j in range(len(y)):
-            elem_y = y[j]
-            temp_final.extend(elem_x[:len(elem_x)-1])
-            temp_final.extend(elem_y[:len(elem_y)-1])
-            temp_final.append(annot)
-            final_array.append(temp_final)
-            temp_final = []
+        temp_final = fuse_data(chest_array, waist_array, thigh_array)
+        final_array.extend(temp_final)
+        chest_array = []
+        waist_array = []
+        thigh_array = []
 
     return final_array
+
+def fuse_data(chest, waist, thigh):
+    new_c, new_w, new_t = add_miss_val(chest, waist, thigh)
+    final_array = []
+    gen_len = len(chest[0])
+    annot = chest[0][gen_len-1]
+    for i in range(len(new_c)):
+        temp_final = []
+
+        row_chest = chest[i]
+        row_waist = waist[i]
+        row_thigh = thigh[i]
+
+        temp_final.extend(row_chest[:gen_len-1])
+        temp_final.extend(row_waist[:gen_len-1])
+        temp_final.extend(row_thigh[:gen_len-1])
+        temp_final.append(annot)
+
+        final_array.append(temp_final)
+
+    return final_array
+
+
+def add_miss_val(chest, waist, thigh):
+
+    #with an assumption that thigh produces more samples than the other 2
+
+    #get median for chest
+    med_c = calc_median(chest)
+
+    # get median for waist
+    med_w = calc_median(waist)
+
+    # get median for thigh
+    #med_t = calc_median(thigh)
+
+    diff_len_c_t = len(thigh) - len(chest)
+    diff_len_w_t = len(thigh) - len(waist)
+
+    #adding data for chest
+    for i in range(diff_len_c_t):
+        chest.append(med_c)
+
+    #adding data for waist
+    for j in range(diff_len_w_t):
+        waist.append(med_w)
+
+    return chest, waist, thigh
+
+
+def calc_median(array):
+    med_val = []
+    #get median for chest
+    len_array = len(array[0])-1 #do not include the annotation
+    annot = array[len_array]
+    for i in range(len_array):
+        temp = []
+        for j in range(len(array)):
+            row = array[j][i]
+            temp.append(row)
+
+        med_temp = stat.median(temp)
+        med_val.append(med_temp)
+
+    med_val.append(annot)
+    return med_val
