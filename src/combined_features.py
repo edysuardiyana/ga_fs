@@ -15,17 +15,20 @@ def combined_features(list_name):
         thigh_path = src.thigh_path(name)
         with open(chest_path) as chest_obj:
             for line_chest in chest_obj:
-                raw_chest = line_chest.split()
+                dirt_raw_chest = line_chest.split()
+                raw_chest = [float(i) for i in dirt_raw_chest[:len(dirt_raw_chest)]]
                 chest_temp.append(raw_chest[:len(raw_chest)-1])
 
         with open(waist_path) as waist_obj:
             for line_waist in waist_obj:
-                raw_waist = line_waist.split()
+                dirt_raw_waist = line_waist.split()
+                raw_waist = [float(i) for i in dirt_raw_waist[:len(dirt_raw_waist)]]
                 waist_temp.append(raw_waist[:len(raw_waist)-1])
 
         with open(thigh_path) as thigh_obj:
             for line_thigh in thigh_obj:
-                raw_thigh = line_thigh.split()
+                dirt_raw_thigh = line_thigh.split()
+                raw_thigh = [float(i) for i in dirt_raw_thigh[:len(dirt_raw_thigh)]]
                 thigh_temp.append(raw_thigh[:len(raw_thigh)-1])
 
         final_array = main_combined(chest_temp, waist_temp, thigh_temp)
