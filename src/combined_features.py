@@ -38,7 +38,10 @@ def combined_features(list_name):
         #temp_name = [name,final_array]
         #combined_with_name.append(temp_name)
         write_combined_data(name, final_array)
-    #return combined_with_name
+
+    num_of_features = len(final_array[0])-1 # do not include annotation
+
+    return num_of_features
 
 def write_combined_data(name, data):
 
@@ -106,16 +109,6 @@ def fuse_data(chest, waist, thigh):
     final_array = []
     gen_len = len(chest[0])
     annot = chest[0][gen_len-1]
-    print "This is annot: " + str(annot)
-
-    print "this is len chest : " + str(len(chest))
-    print "this is len waist : " + str(len(waist))
-    print "this is len thigh : " + str(len(thigh))
-
-    print "this is len new chest : " + str(len(new_c))
-    print "this is len new waist : " + str(len(new_w))
-    print "this is len new thigh : " + str(len(new_t))
-
     for i in range(len(new_c)):
         temp_final = []
 

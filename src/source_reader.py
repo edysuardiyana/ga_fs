@@ -37,3 +37,19 @@ def combined_path(name):
     path = configParser("DataPath")['combined_feat']
     source_path = path + str(name) + ".csv"
     return source_path
+
+def read_num_pop():
+    num_of_pop = int(configParser("DataPath")['pop_size'])
+    return num_of_pop
+
+def read_gen_size():
+    num_of_gen = int(configParser("DataPath")['gen_size'])
+    return num_of_gen
+
+def read_p_mutate():
+    mutation_rate = float(configParser("DataPath")['p_mutate'])
+    return mutation_rate
+
+def read_p_cover():
+    cover_rate = float(configParser("DataPath")['p_cover'])
+    return cover_rate

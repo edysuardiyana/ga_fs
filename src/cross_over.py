@@ -1,13 +1,15 @@
 from random import randint
 import random
+import source_reader as src
 
 def cross_over_funct(parent_1, parent_2):
     new_child_1 = []
     new_child_2 = []
     cross_index = 0
-    P_COVER = 1.0 #1.0 for steady state and 0.6 for generational
+    #P_COVER = 1.0 #1.0 for steady state and 0.6 for generational
+    p_cover = src.read_p_cover()
     p_rand = random.uniform(0,1)
-    if P_COVER > p_rand:
+    if p_cover > p_rand:
 
         while cross_index == 0 or cross_index == len(parent_1)-1:
             cross_index = randint(0, len(parent_1)-1)

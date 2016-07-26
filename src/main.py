@@ -1,6 +1,6 @@
 import cross_over
 import fitness_function
-import initiate_population
+import initiate_population as ip
 import mutation_funct
 import selection_funct
 import source_reader as src
@@ -12,9 +12,16 @@ def main():
     #read names from list
     name_list = read_name()
     #combined features from three different places
-    cf.combined_features(name_list)
-
+    num_of_features = cf.combined_features(name_list)
     # generate initial population
+    num_of_pop = src.read_num_pop()
+    population = ip.gen_pop(num_of_pop, num_of_features)
+    #print population
+
+
+
+
+
 
 
 def read_name():

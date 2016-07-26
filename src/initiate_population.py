@@ -2,7 +2,7 @@ import random
 
 BIN_DIG = 1
 
-def gen_pop(n,nf): #n = number of features, nf = number of features
+def gen_pop(n,nf): #n = number of population, nf = number of features
     pop_array = []
     for i in range(n):
         if not pop_array:
