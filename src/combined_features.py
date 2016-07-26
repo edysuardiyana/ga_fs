@@ -106,12 +106,22 @@ def fuse_data(chest, waist, thigh):
     final_array = []
     gen_len = len(chest[0])
     annot = chest[0][gen_len-1]
+    print "This is annot: " + str(annot)
+
+    print "this is len chest : " + str(len(chest))
+    print "this is len waist : " + str(len(waist))
+    print "this is len thigh : " + str(len(thigh))
+
+    print "this is len new chest : " + str(len(new_c))
+    print "this is len new waist : " + str(len(new_w))
+    print "this is len new thigh : " + str(len(new_t))
+
     for i in range(len(new_c)):
         temp_final = []
 
-        row_chest = chest[i]
-        row_waist = waist[i]
-        row_thigh = thigh[i]
+        row_chest = new_c[i]
+        row_waist = new_w[i]
+        row_thigh = new_t[i]
 
         temp_final.extend(row_chest[:gen_len-1])
         temp_final.extend(row_waist[:gen_len-1])
@@ -125,27 +135,35 @@ def fuse_data(chest, waist, thigh):
 
 def add_miss_val(chest, waist, thigh):
 
-    #with an assumption that thigh produces more samples than the other 2
-
     #get median for chest
     med_c = calc_median(chest)
 
     # get median for waist
     med_w = calc_median(waist)
 
-    # get median for thigh
-    #med_t = calc_median(thigh)
+    #get median for thigh
+    med_t = calc_median(thigh)
 
-    diff_len_c_t = len(thigh) - len(chest)
-    diff_len_w_t = len(thigh) - len(waist)
+    #get the length from all sensors and find the longest one
+    len_coll = [len(chest), len(waist), len(thigh)]
+    max_len = max(len_coll)
+
+
+    diff_len_c = max_len - len(chest)
+    diff_len_w = max_len - len(waist)
+    diff_len_t = max_len - len(thigh)
 
     #adding data for chest
-    for i in range(diff_len_c_t):
+    for i in range(diff_len_c):
         chest.append(med_c)
 
     #adding data for waist
-    for j in range(diff_len_w_t):
+    for j in range(diff_len_w):
         waist.append(med_w)
+
+    #adding data for thigh
+    for k in range(diff_len_t):
+        thigh.append(med_t)
 
     return chest, waist, thigh
 
