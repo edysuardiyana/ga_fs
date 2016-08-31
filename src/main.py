@@ -16,12 +16,10 @@ def main():
     # generate initial population
     num_of_pop = src.read_num_pop()
     population = ip.gen_pop(num_of_pop, num_of_features)
+
     #print population
 
-
-
-
-
+    #calculate inital fitness of each individual in population
 
 
 def read_name():
