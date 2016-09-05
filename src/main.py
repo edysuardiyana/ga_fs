@@ -7,15 +7,23 @@ import source_reader as src
 import combined_features as cf
 import csv
 
+NUM_OF_FEATS = 81 #each sensors uses 27 features, 3 sensors (chest, waist, and thigh) use
+
 def main():
-    combined_array = []
-    #read names from list
-    name_list = read_name()
-    #combined features from three different places
-    num_of_features = cf.combined_features(name_list)
+
     # generate initial population
     num_of_pop = src.read_num_pop()
-    population = ip.gen_pop(num_of_pop, num_of_features)
+    population = ip.gen_pop(num_of_pop, NUM_OF_FEATS)
+
+    #calc fitness function for the population
+    #print population
+
+    #combined_array = []
+    #read names from list
+    #name_list = read_name()
+    #combined features from three different places
+    #num_of_features = cf.combined_features(name_list)
+
 
     #print population
 

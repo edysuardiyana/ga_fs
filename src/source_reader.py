@@ -3,7 +3,7 @@ import ConfigParser
 def configParser(section):
 
     Config = ConfigParser.ConfigParser()
-    Config.read('/home/edysuardiyana/edy/git/ga_fs/src/path.ini')
+    Config.read('/Users/ArseneLupin/Documents/edy/ga_fs/src/path.ini')
     dict1 = {}
     options = Config.options(section)
     for option in options:
@@ -17,6 +17,12 @@ def configParser(section):
 def listname_path():
     path = configParser("DataPath")['list_name']
     return path
+
+def raw_source(name,position):
+    config_address = position+"_data"
+    path = configParser("DataPath")['config_address']
+    source_path = path + str(name) + ".csv"
+    return source_path
 
 def chest_path(name):
     path = configParser("DataPath")['chest_feat']
