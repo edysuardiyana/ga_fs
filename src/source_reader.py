@@ -59,3 +59,7 @@ def read_p_mutate():
 def read_p_cover():
     cover_rate = float(configParser("DataPath")['p_cover'])
     return cover_rate
+
+def read_num_position():
+    position = int(ConfigParser("DataPath")['position'])
+    return position

@@ -21,7 +21,7 @@ FALL_SET = set([FALL_FORWARD,
                 FALL_BLIND_BACKWARD])
 
 
-def eves_window(data_x, data_y, data_z, annot, freq_rate,name):
+def eves_window(data_x, data_y, data_z, annot, freq_rate, pop_elem, pos):
     size_active_win = (3 * freq_rate) + 1
     feature_win = 5 * freq_rate
     buffer_size = freq_rate
@@ -92,7 +92,7 @@ def eves_window(data_x, data_y, data_z, annot, freq_rate,name):
                 buffer_x[:len(buffer_x)-1],
                 buffer_y[:len(buffer_y)-1],
                 buffer_z[:len(buffer_z)-1],
-                freq_rate)
+                freq_rate, elem_pop, pos)
                 instance.append(buffer_annot[freq_rate])
                 if buffer_annot[freq_rate] in FALL_SET:
                     instance.append(1)
