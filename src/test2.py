@@ -1,7 +1,12 @@
-import fitness_function as ff
+import detection_rate_src.features_extract as fe
+import numpy as np
 
-x = [[1,0,1,1,1,0], 13]
-x_array = []
-x_array.append(x)
+data = [1,2,3,4,5,6,7,8,9]
+x = [1,2,3,4,5,6,7,8,9]
+y = [1,2,3,4,5,6,7,8,9]
+z = [1,2,3,4,5,6,7,8,9]
+elem = [1,0,1,0,0,0,0,0,0]
 
-print x_array
+res = fe.features_calc(data,x,y,z,1,elem)
+print len(res)
+print res

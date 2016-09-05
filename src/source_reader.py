@@ -61,5 +61,6 @@ def read_p_cover():
     return cover_rate
 
 def read_num_position():
-    position = int(ConfigParser("DataPath")['position'])
-    return position
+    pos = configParser("DataPath")['position']
+    num_pos = pos.split(",")
+    return len(num_pos)

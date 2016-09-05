@@ -17,7 +17,7 @@ def main_features(data_vm, data_x, data_y, data_z, freq_rate, elem_pop, pos):
     instance = []
     if pos == "chest":
         chest_elem = elem_pop[:num_of_seg]
-        num_stage = chest_elem/NUM_OF_STAGES
+        num_stage = len(chest_elem)/NUM_OF_STAGES
 
         start_time = timeit.default_timer()
         pre_chest = features_calc(data_vm[:pre_win], data_x[:pre_win], data_y[:pre_win], data_z[:pre_win], freq_rate, chest_elem[:num_stage])
@@ -32,7 +32,7 @@ def main_features(data_vm, data_x, data_y, data_z, freq_rate, elem_pop, pos):
 
     elif pos == "waist":
         waist_elem = elem_pop[num_of_seg:num_of_seg * 2]
-        num_stage = waist_elem/NUM_OF_STAGES
+        num_stage = len(waist_elem)/NUM_OF_STAGES
 
         start_time = timeit.default_timer()
         pre_waist = features_calc(data_vm[:pre_win], data_x[:pre_win], data_y[:pre_win], data_z[:pre_win], freq_rate, waist_elem[:num_stage])
@@ -47,7 +47,7 @@ def main_features(data_vm, data_x, data_y, data_z, freq_rate, elem_pop, pos):
 
     else:
         thigh_elem = elem_pop[num_of_seg * 2 : num_of_seg * 3]
-        num_stage = thigh_elem/NUM_OF_STAGES
+        num_stage = len(thigh_elem)/NUM_OF_STAGES
 
         start_time = timeit.default_timer()
         pre_thigh = features_calc(data_vm[:pre_win], data_x[:pre_win], data_y[:pre_win], data_z[:pre_win], freq_rate, thigh_elem[:num_stage])
@@ -88,11 +88,11 @@ def features_calc(data,x,y,z,freq_rate, elem):
             raw_velo = integrate(data, freq_rate)
             velo = round(raw_velo,6)
             inst.append(velo)
-        elif i = 6 and elem[i] == 1:
+        elif i == 6 and elem[i] == 1:
             raw_sma = smafeat(x,y,z,freq_rate)
             sma = round(raw_sma,6)
             inst.append(sma)
-        elif i = 7 and elem[i] == 1:
+        elif i == 7 and elem[i] == 1:
             raw_ema = ema_calc(data)
             ema = round(raw_ema,6)
             inst.append(ema)
