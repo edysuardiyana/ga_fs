@@ -4,7 +4,7 @@ from numpy import sqrt
 import scipy.stats as st
 import timeit
 import time
-import source_reader as src
+from ga_main import source_reader
 import warnings
 
 NUM_OF_STAGES = 3
