@@ -5,6 +5,7 @@ import scipy.stats as st
 import timeit
 import time
 import source_reader as src
+import warnings
 
 NUM_OF_STAGES = 3
 
@@ -48,7 +49,6 @@ def main_features(data_vm, data_x, data_y, data_z, freq_rate, elem_pop, pos):
     else:
         thigh_elem = elem_pop[num_of_seg * 2 : num_of_seg * 3]
         num_stage = len(thigh_elem)/NUM_OF_STAGES
-
         start_time = timeit.default_timer()
         pre_thigh = features_calc(data_vm[:pre_win], data_x[:pre_win], data_y[:pre_win], data_z[:pre_win], freq_rate, thigh_elem[:num_stage])
         imp_thigh = features_calc(data_vm[pre_win : imp], data_x[pre_win : imp], data_y[pre_win : imp], data_z[pre_win : imp], freq_rate, thigh_elem[num_stage:num_stage * 2])
@@ -60,6 +60,7 @@ def main_features(data_vm, data_x, data_y, data_z, freq_rate, elem_pop, pos):
         instance.extend(imp_thigh)
         instance.extend(post_thigh)
 
+    #warnings.simplefilter("error") #this error only appears if the sampling rate is 1
     return instance, run_time
 
 def features_calc(data,x,y,z,freq_rate, elem):
@@ -67,7 +68,6 @@ def features_calc(data,x,y,z,freq_rate, elem):
     new_array = np.array(data)
     power_by_two = np.array(data)**2
     means_array = power_by_two.mean()
-
     for i in range(len(elem)):
         if i == 0 and elem[i] == 1:
             mean = round(new_array.mean(),6)

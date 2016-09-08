@@ -26,6 +26,8 @@ def main_detection(listname, elem_pop):
 
 
 
+
+
 def read_seq(name, position):
     path = src.raw_source(name,position)
     x = []
@@ -44,4 +46,8 @@ def read_seq(name, position):
     return x,y,z,annot
 
 
-def write_feat(name,position)
+def write_result(name,position,result, data):
+    if result == "instance":
+        path = src.feat_path(name,position)
+    else:
+        path = src.runtime_path(name,position)

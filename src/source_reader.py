@@ -20,23 +20,19 @@ def listname_path():
 
 def raw_source(name,position):
     config_address = position+"_data"
-    path = configParser("DataPath")['config_address']
+    path = configParser("DataPath")[config_address]
     source_path = path + str(name) + ".csv"
     return source_path
 
-def chest_path(name):
-    path = configParser("DataPath")['chest_feat']
-    source_path = path + str(name) + ".csv"
-    return source_path
+def runtime_path(name,position):
+    address = position + "_time"
+    path = configParser("DataPath")[address]
+    source_path = path + name + ".csv"
 
-def waist_path(name):
-    path = configParser("DataPath")['waist_feat']
-    source_path = path + str(name) + ".csv"
-    return source_path
-
-def thigh_path(name):
-    path = configParser("DataPath")['thigh_feat']
-    source_path = path + str(name) + ".csv"
+def feat_path(name, position):
+    address = position + "_feat"
+    path = configParser("DataPath")[address]
+    source_path = path + name + ".csv"
     return source_path
 
 def combined_path(name):
