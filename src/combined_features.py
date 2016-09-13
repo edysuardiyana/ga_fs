@@ -52,33 +52,128 @@ def write_combined_data(name, data):
         csv_writer.writerow(line)
     out_file.close()
 
-def main_combined(chest_temp, waist_temp, thigh_temp):
+def main_combined(chest, waist, thigh):
 
-    len_chest = len(chest_temp)
-    len_waist = len(waist_temp)
-    len_thigh = len(thigh_temp)
+    main_flag =  True
+    chest_temp = []
+    waist_temp = []
+    thigh_temp = []
+    final_array = []
+    annot = None
+    while main_flag:
 
-    array_len = [len_chest, len_waist, len_waist]
+        len_chest = len(chest)
+        len_waist = len(waist)
+        len_thigh = len(thigh)
 
+        if len_chest > 0 or len_waist > 0 or len_thigh:
+            main_flag = True
+            if len_chest > 0:
+                #take annot from chest
+                annot = chest[0][len(chest[0])-1] #annotation is placed two places from right
+            elif len_waist > 0:
+                #take annot from waist
+                annot = waist[0][len(waist[0])-1]
+            else:
+                #take annot from thigh
+                annot = thigh[0][len(thigh[0])-1]
+        else:
+            main_flag = False
+
+        #take sample from chest
+        count_chest = 0
+        while count_chest < len(chest):
+            line_chest = chest[count_chest]
+            annot_c = line_chest[len(line_chest)-1]
+            if annot_c == annot:
+                #same annotation
+                chest_temp.append(line_chest)
+                del chest[count_chest]
+                if count_chest > 0:
+                    count_chest -= 1
+            else:
+                count_chest += 1
+
+        #take sample from waist
+        count_waist = 0
+        while count_waist < len(waist):
+            line_waist = waist[count_waist]
+            annot_w = line_waist[len(line_waist)-1]
+            if annot_w == annot:
+                waist_temp.append(line_waist)
+                del waist[count_waist]
+                if count_waist > 0:
+                    count_waist -= 1
+            else:
+                count_waist += 1
+
+        #take sample from thigh
+        count_thigh = 0
+        while count_thigh < len(thigh):
+            line_thigh = thigh[count_thigh]
+            annot_t = line_thigh[len(line_thigh)-1]
+            if annot_t == annot:
+                thigh_temp.append(line_thigh)
+                del thigh[count_thigh]
+                if count_thigh > 0:
+                    count_thigh -= 1
+            else:
+                count_thigh += 1
+        if (chest_temp and waist_temp) or (chest_temp and thigh_temp) or (waist_temp and thigh_temp) :
+            new_fuse = fuse_data(chest_temp, waist_temp, thigh_temp)
+            final_array.extend(new_fuse)
+        chest_temp = []
+        waist_temp = []
+        thigh_temp = []
+
+    print len(final_array)
     return final_array
 
 def fuse_data(chest, waist, thigh):
+
+    print chest
+    print waist
+    print thigh
+
+    print "####################################################################"
+
     new_c, new_w, new_t = add_miss_val(chest, waist, thigh)
     final_array = []
-    gen_len = len(chest[0])
-    annot = chest[0][gen_len-1]
-    for i in range(len(new_c)):
+    print new_c
+    print new_w
+    print new_t
+
+    print "--------------------------------------------------------------------"
+
+    if new_c:
+        gen_len = len(new_c[0])
+        annot = new_c[0][gen_len - 1]
+        len_loop = len(new_c)
+    elif new_w:
+        gen_len = len(new_w[0])
+        annot = new_w[0][gen_len - 1]
+        len_loop = len(new_w)
+    else:
+        gen_len = len(new_t[0])
+        annot = new_t[0][gen_len - 1]
+        len_loop = len(new_t)
+
+    for i in range(len_loop):
         temp_final = []
 
-        row_chest = new_c[i]
-        row_waist = new_w[i]
-        row_thigh = new_t[i]
+        if new_c:
+            row_chest = new_c[i]
+            temp_final.extend(row_chest[:gen_len-1])
 
-        temp_final.extend(row_chest[:gen_len-1])
-        temp_final.extend(row_waist[:gen_len-1])
-        temp_final.extend(row_thigh[:gen_len-1])
+        if new_w:
+            row_waist = new_w[i]
+            temp_final.extend(row_waist[:gen_len-1])
+
+        if new_t:
+            row_thigh = new_t[i]
+            temp_final.extend(row_thigh[:gen_len-1])
+
         temp_final.append(annot)
-
         final_array.append(temp_final)
 
     return final_array
@@ -87,43 +182,46 @@ def fuse_data(chest, waist, thigh):
 def add_miss_val(chest, waist, thigh):
 
     #get median for chest
-    med_c = calc_median(chest)
+    if chest:
+        med_c = calc_median(chest)
 
     # get median for waist
-    med_w = calc_median(waist)
+    if waist:
+        med_w = calc_median(waist)
 
     #get median for thigh
-    med_t = calc_median(thigh)
+    if thigh:
+        med_t = calc_median(thigh)
 
     #get the length from all sensors and find the longest one
     len_coll = [len(chest), len(waist), len(thigh)]
     max_len = max(len_coll)
 
-
-    diff_len_c = max_len - len(chest)
-    diff_len_w = max_len - len(waist)
-    diff_len_t = max_len - len(thigh)
-
-    #adding data for chest
-    for i in range(diff_len_c):
-        chest.append(med_c)
-
-    #adding data for waist
-    for j in range(diff_len_w):
-        waist.append(med_w)
-
-    #adding data for thigh
-    for k in range(diff_len_t):
-        thigh.append(med_t)
+    if chest:
+        diff_len_c = max_len - len(chest)
+        #adding data for chest
+        for i in range(diff_len_c):
+            chest.append(med_c)
+    if waist:
+        diff_len_w = max_len - len(waist)
+        #adding data for waist
+        for j in range(diff_len_w):
+            waist.append(med_w)
+    if thigh:
+        diff_len_t = max_len - len(thigh)
+        #adding data for thigh
+        for k in range(diff_len_t):
+            thigh.append(med_t)
 
     return chest, waist, thigh
 
 
 def calc_median(array):
+
     med_val = []
-    len_array = len(array[0]) #do not include the annotation
+    len_array = len(array[0])
     annot = array[0][len_array-1]
-    for i in range(len_array):
+    for i in range(len_array-1): #do not include the annotation
         temp = []
         for j in range(len(array)):
             row = array[j][i]

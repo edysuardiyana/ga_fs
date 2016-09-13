@@ -31,12 +31,14 @@ class combined_test(unittest.TestCase):
                 self.assertEqual(med_val[i],1.0)
 
     def median_4_test(self):
-        x = [[1,1,1],[1,1,2],[1,1,3],[1,1,4]]
+        x = [[1,1,1,0],[1,1,2,0],[1,1,3,0],[1,1,4,0]]
         med_val = cf.calc_median(x)
-
+        print med_val
         for i in range(len(med_val)):
             if i == 2:
                 self.assertEqual(med_val[i],2.5)
+            elif i == 3:
+                self.assertEqual(med_val[i],0)
             else:
                 self.assertEqual(med_val[i],1.0)
 
@@ -86,7 +88,9 @@ class combined_test(unittest.TestCase):
                 temp_z[len(temp_z)-1] = 1
 
             z.append(temp_z)
-
+        #print x
+        #print y
+        #print z
         new_val = cf.main_combined(x,y,z)
 
         self.assertEqual(len(new_val), 10)
