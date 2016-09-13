@@ -33,7 +33,6 @@ class combined_test(unittest.TestCase):
     def median_4_test(self):
         x = [[1,1,1,0],[1,1,2,0],[1,1,3,0],[1,1,4,0]]
         med_val = cf.calc_median(x)
-        print med_val
         for i in range(len(med_val)):
             if i == 2:
                 self.assertEqual(med_val[i],2.5)

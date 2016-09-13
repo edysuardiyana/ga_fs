@@ -2,16 +2,18 @@ import eves
 #import ga_fs.src.source_reader as src
 import source_reader as src
 import csv
-
+import combined_features as cf
 
 FREQ_RATE = 100
 
 def main_detection(listname, elem_pop): #elem pop is an individual
 
+    print "individual: "
+    print elem_pop
+
     for name in listname:
         print "extracting features from : " + name
-        print "individual: "
-        print elem_pop
+
 
         #chest
         #read data
@@ -32,6 +34,11 @@ def main_detection(listname, elem_pop): #elem pop is an individual
         ins_t, runt_t = eves.eves_window(x_t, y_t, z_t, a_t, FREQ_RATE, elem_pop, "thigh")
         write_result(name,"thigh","instance",ins_t) #writing instances
         write_result(name,"thigh", "runtime", runt_t) #writing run time
+
+    cf.combined_features(listname)
+
+
+
 
 
 

@@ -24,10 +24,5 @@ for k in range(10):
         temp_z[len(temp_z)-1] = 1
     z.append(temp_z)
 
-print "this is original data"
-print x
-print y
-print z
-print "#######################################################################"
 
 new_val = cf.main_combined(x,y,z)

@@ -9,10 +9,10 @@ def combined_features(list_name):
     thigh_temp = []
     final_array = []
     for name in list_name:
-        print name
-        chest_path = src.chest_path(name)
-        waist_path = src.waist_path(name)
-        thigh_path = src.thigh_path(name)
+        print "Combinining: " + name
+        chest_path = src.feat_path(name, "chest")
+        waist_path = src.feat_path(name, "waist")
+        thigh_path = src.feat_path(name, "thigh")
         with open(chest_path) as chest_obj:
             for line_chest in chest_obj:
                 dirt_raw_chest = line_chest.split()
@@ -30,6 +30,7 @@ def combined_features(list_name):
                 dirt_raw_thigh = line_thigh.split()
                 raw_thigh = [float(i) for i in dirt_raw_thigh[:len(dirt_raw_thigh)]]
                 thigh_temp.append(raw_thigh[:len(raw_thigh)-1])
+
 
         final_array = main_combined(chest_temp, waist_temp, thigh_temp)
         chest_temp = []
@@ -126,24 +127,12 @@ def main_combined(chest, waist, thigh):
         waist_temp = []
         thigh_temp = []
 
-    print len(final_array)
     return final_array
 
 def fuse_data(chest, waist, thigh):
 
-    print chest
-    print waist
-    print thigh
-
-    print "####################################################################"
-
     new_c, new_w, new_t = add_miss_val(chest, waist, thigh)
     final_array = []
-    print new_c
-    print new_w
-    print new_t
-
-    print "--------------------------------------------------------------------"
 
     if new_c:
         gen_len = len(new_c[0])
@@ -163,15 +152,21 @@ def fuse_data(chest, waist, thigh):
 
         if new_c:
             row_chest = new_c[i]
-            temp_final.extend(row_chest[:gen_len-1])
+            #print "chest"
+            #print row_chest[:gen_len-1]
+            temp_final.extend(row_chest[:len(row_chest)-1])
 
         if new_w:
             row_waist = new_w[i]
-            temp_final.extend(row_waist[:gen_len-1])
+            #print "waist"
+            #print row_waist[:gen_len-1]
+            temp_final.extend(row_waist[:len(row_waist)-1])
 
         if new_t:
             row_thigh = new_t[i]
-            temp_final.extend(row_thigh[:gen_len-1])
+            #print "thigh"
+            #print row_thigh[:gen_len-1]
+            temp_final.extend(row_thigh[:len(row_thigh)-1])
 
         temp_final.append(annot)
         final_array.append(temp_final)
