@@ -61,3 +61,8 @@ def read_num_position():
     pos = configParser("DataPath")['position']
     num_pos = pos.split(",")
     return len(num_pos)
+
+def read_temp_fscore():
+    path = configParser("DataPath")['result_temp']
+    source_path = path + "result.csv"
+    return source_path

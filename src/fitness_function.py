@@ -1,18 +1,13 @@
 import source_reader as src
-import accuracy_metrics_check
+import main_detection as md
 
-def main_fitness_cal(pop):
-    pop_array = []
+def main_fitness_cal(listname, elem):
 
-    for elem in pop:
-        #calc accuracy for each individual
-        elem_accuracy = accuracy_check(elem)
+    f_score, runtime, sens_place = md.main_detection(listname, elem)
+    temp_fitness = calc_fitness(f_score, runtime, sens_place)
+    indi_and_fit = [elem,temp_fitness]
 
-        #calc runtime
-        elem_runtime = asdas()
-
-        
-
+    return indi_and_fit
 
 def calc_fitness(f_score, energy, obst):
 
