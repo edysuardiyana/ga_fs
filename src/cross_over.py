@@ -17,6 +17,7 @@ def cross_over_funct(parent_1, parent_2):
             for k in range(len(parent_1)):
                 new_child_1.append(parent_1[k])
                 new_child_2.append(parent_2[k])
+                
             for i in range(cross_index, len(parent_1)):
                 temp_1 = new_child_1[i]
                 temp_2 = new_child_2[i]
