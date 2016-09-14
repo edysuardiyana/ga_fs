@@ -32,7 +32,9 @@ def combined_features(list_name):
                 thigh_temp.append(raw_thigh[:len(raw_thigh)-1])
 
 
+
         final_array = main_combined(chest_temp, waist_temp, thigh_temp)
+
         chest_temp = []
         waist_temp = []
         thigh_temp = []
@@ -120,7 +122,8 @@ def main_combined(chest, waist, thigh):
                     count_thigh -= 1
             else:
                 count_thigh += 1
-        if (chest_temp and waist_temp) or (chest_temp and thigh_temp) or (waist_temp and thigh_temp) :
+
+        if chest_temp and waist_temp and thigh_temp:
             new_fuse = fuse_data(chest_temp, waist_temp, thigh_temp)
             final_array.extend(new_fuse)
         chest_temp = []
@@ -152,20 +155,16 @@ def fuse_data(chest, waist, thigh):
 
         if new_c:
             row_chest = new_c[i]
-            #print "chest"
-            #print row_chest[:gen_len-1]
             temp_final.extend(row_chest[:len(row_chest)-1])
 
         if new_w:
             row_waist = new_w[i]
-            #print "waist"
-            #print row_waist[:gen_len-1]
+
             temp_final.extend(row_waist[:len(row_waist)-1])
 
         if new_t:
             row_thigh = new_t[i]
-            #print "thigh"
-            #print row_thigh[:gen_len-1]
+
             temp_final.extend(row_thigh[:len(row_thigh)-1])
 
         temp_final.append(annot)

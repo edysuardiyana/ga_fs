@@ -28,18 +28,15 @@ def select_parent(n): # Number parent population array
 
 def pick_parrent(array_val):
 
-    print array_val
     counter = 0
     flag = False
     parent_index = random.uniform(0, array_val[len(array_val)-1])
-    print parent_index
 
     while not flag:
         if counter == 0:
             if parent_index < array_val[counter]:
                 flag = True
                 chosen_parent = counter
-                print flag
             else:
                 counter = counter + 1
         else:

@@ -29,7 +29,8 @@ def main_detection(listname, elem_pop): #elem pop is an individual
         ins_c, runt_c = eves.eves_window(x_c, y_c, z_c, a_c, FREQ_RATE, elem_pop, "chest")
         write_result(name,"chest","instance",ins_c) #writing instances
         write_result(name,"chest", "runtime", runt_c) #writing run time
-        tot_chest_time.expand(runt_c)
+        for line_c in runt_c:
+            tot_chest_time.append(line_c[1])
 
 
         #waist
@@ -37,14 +38,17 @@ def main_detection(listname, elem_pop): #elem pop is an individual
         ins_w, runt_w = eves.eves_window(x_w, y_w, z_w, a_w, FREQ_RATE, elem_pop, "waist")
         write_result(name,"waist","instance",ins_w) #writing instances
         write_result(name,"waist", "runtime", runt_w) #writing run time
-        tot_waist_time.expand(runt_w)
+        for line_w in runt_w:
+            tot_waist_time.append(line_w[1])
+
 
         #thigh
         x_t, y_t, z_t, a_t = read_seq(name, "thigh")
         ins_t, runt_t = eves.eves_window(x_t, y_t, z_t, a_t, FREQ_RATE, elem_pop, "thigh")
         write_result(name,"thigh","instance",ins_t) #writing instances
         write_result(name,"thigh", "runtime", runt_t) #writing run time
-        tot_thigh_time.expand(runt_w)
+        for line_t in runt_t:
+            tot_thigh_time.append(line_t[1])
 
     cf.combined_features(listname)
 
@@ -85,21 +89,16 @@ def num_of_sens(elem):
     flag_chest = 0
     flag_waist = 0
     flag_thigh = 0
-    print chest_part
-    print waist_part
-    print thigh_part
+
     tot_num_sens = 0
     for i in range(len_part):
         if chest_part[i] > 0:
-            print "get chest"
             flag_chest = 1
 
         if waist_part[i] > 0:
-            print "get waist"
             flag_waist = 1
 
         if thigh_part[i] > 0:
-            print "get thigh"
             flag_thigh = 1
 
     tot_num_sens = flag_chest + flag_waist + flag_thigh

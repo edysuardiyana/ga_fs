@@ -46,8 +46,16 @@ def read_num_pop():
     return num_of_pop
 
 def read_gen_size():
-    num_of_gen = int(configParser("DataPath")['gen_size'])
+    num_of_gen = int(configParser("DataPath")['individual_size'])
     return num_of_gen
+
+def read_tot_gen():
+    tot_gen = int(configParser("DataPath")['tot_gen'])
+    return tot_gen
+
+def read_tot_pop_size():
+    tot_pop_size = int(configParser("DataPath")['tot_pop_size'])
+    return tot_pop_size
 
 def read_p_mutate():
     mutation_rate = float(configParser("DataPath")['p_mutate'])

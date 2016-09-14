@@ -9,63 +9,101 @@ import main_detection
 import selection_funct as sf
 
 
-NUM_OF_FEATS = 81 #each sensors uses 27 features, 3 sensors (chest, waist, and thigh) use
+#NUM_OF_FEATS = 81 #each sensors uses 27 features, 3 sensors (chest, waist, and thigh) use
 
 def main():
     pop_fit = []
     # generate initial population
     num_of_pop = src.read_num_pop()
-    population = ip.gen_pop(num_of_pop, NUM_OF_FEATS)
+    num_of_feats = src.read_gen_size()
+    population = ip.gen_pop(num_of_pop, num_of_feats)
 
     #read names from list
-    name_list = read_name()
+    listname = read_name()
 
     #calculate fitness from each individual from pop
     for elem in population:
-        temp_enf = ff.main_fitness_cal(listname, elem)
+        if check_elem(elem):
+            temp_enf = ff.main_fitness_cal(listname, elem)
+        else:
+            temp_enf = [elem,0,0,0,0]
+
         pop_fit.append(temp_enf)
 
     #sort (decreasing style) the individual based on fitnes function
     sorted_pop = sort_pop(pop_fit)
 
-    #select 2 parents:
-    p1_index, p2_index = sf.select_parent(len(sorted_pop))
-    p1 = sorted_pop[p1_index][0]
-    p2 = sorted_pop[p2_index][0]
+    tot_pop = src.read_tot_pop_size()
+    tot_gen = src.read_tot_gen()
 
-    #crossover process
-    child1, child2 = cov.cross_over_funct(p1,p2)
+    counter_gen = 0
+    print "==================================== start GA ======================"
+    while len(sorted_pop) < tot_pop and counter_gen < tot_gen:
+        print "generation: " + str(counter_gen)
+        counter_gen += 1
+        #select 2 parents:
+        p1_index, p2_index = sf.select_parent(len(sorted_pop))
+        p1 = sorted_pop[p1_index][0]
+        p2 = sorted_pop[p2_index][0]
 
-    #mutate childs
-    _,m_child1 = mut.mutate(child1)
-    _,m_child2 = mut.mutate(child2)
+        #crossover process
+        child1, child2 = cov.cross_over_funct(p1,p2)
 
-    #calculate fitness function of the new childs
-    child1_fit = ff.main_fitness_cal(listname,m_child1)
-    child2_fit = ff.main_fitness_cal(listname,m_child2)
+        #mutate childs
+        _,m_child1 = mut.mutate(child1)
+        _,m_child2 = mut.mutate(child2)
 
-    #inserting new childs into pop
-    #first kid
-    pop = insert_kid(pop,child1_fit)
+        #calculate fitness function of the new childs
+        if check_elem(m_child1):
+            child1_fit = ff.main_fitness_cal(listname,m_child1)
+        else:
+            child1_fit = [m_child1,0,0,0,0]
 
-    #second kid
-    pop = insert_kid(pop, child2_fit)
+        if check_elem(m_child2):
+            child2_fit = ff.main_fitness_cal(listname,m_child2)
+        else:
+            child2_fit = [m_child2,0,0,0,0]
 
-    #delete the weakest individual (last elem because the sorted pop is in decreasing-style)
-    del pop[len(pop)-1]
+        #inserting new childs into pop
+        #first kid
+        sorted_pop = insert_kid(sorted_pop,child1_fit)
 
+        #second kid
+        sorted_pop = insert_kid(sorted_pop, child2_fit)
 
+        #delete the weakest individual (last elem because the sorted pop is in decreasing-style)
+        del sorted_pop[len(sorted_pop)-1]
+
+    for line in sorted_pop:
+        print line
+
+def check_elem(elem):
+    counter = 0
+    for line in elem:
+        if line == 1:
+            counter += 1
+
+    if counter>0:
+        flag = True
+    else:
+        flag = False
+    return flag
 
 def insert_kid(pop, new_kid):
 
     flag = True
     counter = 0
-    while flag:
+    init_pop = len(pop)
+    while flag and counter < len(pop):
+
         if pop[counter][1] <= new_kid[1]:
-            pop.insert(i,new_kid)
+            pop.insert(counter,new_kid)
             flag = False
         else:
             counter += 1
+
+    if init_pop == len(pop):
+        pop.append(new_kid)
 
     return pop
 
@@ -77,7 +115,7 @@ def sort_pop(pop_fit):
             pop_fit[j] = pop_fit[j-1]
             pop_fit[j-1] = temp
             j -= 1
-print pop_fit
+    return pop_fit
 
 def read_name():
     name_list = []

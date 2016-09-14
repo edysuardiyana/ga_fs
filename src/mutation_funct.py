@@ -13,7 +13,6 @@ def mutate(instance):
 
     for i in range(len(temp_instance)):
         p_rand = random.uniform(0,1)
-        #print p_rand
         if temp_instance[i] == 0 and p_mutate > p_rand:
             temp_instance[i] = 1
             test_flag = True

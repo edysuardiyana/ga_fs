@@ -5,7 +5,7 @@ def main_fitness_cal(listname, elem):
 
     f_score, runtime, sens_place = md.main_detection(listname, elem)
     temp_fitness = calc_fitness(f_score, runtime, sens_place)
-    indi_and_fit = [elem,temp_fitness]
+    indi_and_fit = [elem, f_score, runtime, sens_place, temp_fitness]
 
     return indi_and_fit
 
