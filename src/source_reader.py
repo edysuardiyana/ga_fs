@@ -3,7 +3,7 @@ import ConfigParser
 def configParser(section):
 
     Config = ConfigParser.ConfigParser()
-    Config.read('/Users/ArseneLupin/Documents/edy/ga_fs/src/path.ini')
+    Config.read('/home/edysuardiyana/edy/git/ga_fs/src/path.ini')
     dict1 = {}
     options = Config.options(section)
     for option in options:
@@ -42,7 +42,7 @@ def combined_path(name):
     return source_path
 
 def read_num_pop():
-    num_of_pop = int(configParser("DataPath")['pop_size'])
+    num_of_pop = int(configParser("DataPath")['init_pop_size'])
     return num_of_pop
 
 def read_gen_size():
@@ -74,3 +74,7 @@ def read_temp_fscore():
     path = configParser("DataPath")['result_temp']
     source_path = path + "result.csv"
     return source_path
+
+def read_num_of_exp():
+    num = int(configParser("DataPath")["num_of_exp"])
+    return num

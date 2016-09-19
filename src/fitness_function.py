@@ -3,9 +3,9 @@ import main_detection as md
 
 def main_fitness_cal(listname, elem):
 
-    f_score, runtime, sens_place = md.main_detection(listname, elem)
+    prec, rec, f_score, runtime, sens_place = md.main_detection(listname, elem)
     temp_fitness = calc_fitness(f_score, runtime, sens_place)
-    indi_and_fit = [elem, f_score, runtime, sens_place, temp_fitness]
+    indi_and_fit = [elem, prec, rec, f_score, runtime, sens_place, temp_fitness]
 
     return indi_and_fit
 
@@ -16,5 +16,5 @@ def calc_fitness(f_score, energy, obst):
     W_ACCURACY = 0.5
     TOT_SENS = 3 # in this case the total number of sensors is 3
 
-    fit_val = (W_ACCURACY * f_score/100) - ((W_OBSTRUSIVE * obst / TOT_SENS) + (W_ENERGY * energy)) #fscore is divided to 100 to discard the percentage
+    fit_val = (W_ACCURACY * f_score/100) - (W_OBSTRUSIVE * obst / TOT_SENS) - (W_ENERGY * energy) #fscore is divided to 100 to discard the percentage
     return fit_val

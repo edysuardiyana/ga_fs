@@ -1,5 +1,5 @@
 import unittest
-import detection_rate_src.features_extract as fe
+import features_extract as fe
 
 class feature_test(unittest.TestCase):
     def feature_select1_test(self):

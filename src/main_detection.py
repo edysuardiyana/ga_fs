@@ -57,10 +57,10 @@ def main_detection(listname, elem_pop): #elem pop is an individual
     temp_t_runtime = stat.mean(tot_thigh_time)
 
     tot_run_time = temp_c_runtime + temp_w_runtime + temp_t_runtime #total run time
-    f_score_val = tt.accuracy_measure(listname) # average f_score
+    prec_val, rec_val, f_score_val = tt.accuracy_measure(listname) # average f_score
     sensor_place = num_of_sens(elem_pop)
 
-    return f_score_val, tot_run_time, sensor_place
+    return prec_val, rec_val, f_score_val, tot_run_time, sensor_place
 
 
 def read_seq(name, position):

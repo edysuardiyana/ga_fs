@@ -22,6 +22,8 @@ def accuracy_measure(list_name):
     print "calculate accuracy"
     features = []
     f_score = []
+    precision = []
+    recall = []
     total_training_set = []
     total_class_training = []
     clf = LogisticRegression(C = 1e8)
@@ -39,7 +41,7 @@ def accuracy_measure(list_name):
         clf = clf.fit(total_training_set, total_class_training)
         prediction_val = clf.predict(testing_set)
         TP, FP, TN, FN = calc_metrics(prediction_val,new_annot_testing, real_annot_testing, name)
-        write_predict(name, prediction_val, real_annot_testing )
+        #write_predict(name, prediction_val, real_annot_testing )
 
         #print "TP: "+ str(TP)
         #print "FP: "+ str(FP)
@@ -65,9 +67,13 @@ def accuracy_measure(list_name):
         total_class_training = []
 
         f_score.append(F_val)
-    write_fscore(list_name, f_score)
+        precision.append(Prec)
+        recall.append(Rec)
+    #write_fscore(list_name, f_score)
     mean_fscore = stat.mean(f_score)
-    return mean_fscore
+    mean_precision = stat.mean(precision)
+    mean_recall = stat.mean(recall)
+    return mean_precision, mean_recall, mean_fscore
 
 def read_file(name):
     path = src.combined_path(name)

@@ -10,10 +10,20 @@ import selection_funct as sf
 
 
 #NUM_OF_FEATS = 81 #each sensors uses 27 features, 3 sensors (chest, waist, and thigh) use
-
 def main():
+    num_sim = src.read_num_of_exp()
+    tot_f = []
+    for i in range(num_sim):
+        print "experiment number: " +str(i)
+        temp_f = main_ga()
+        tot_f.append(temp_f)
+
+    write_result(tot_f)
+
+def main_ga():
     pop_fit = []
     # generate initial population
+    print "generate individual for initial population"
     num_of_pop = src.read_num_pop()
     num_of_feats = src.read_gen_size()
     population = ip.gen_pop(num_of_pop, num_of_feats)
@@ -26,7 +36,7 @@ def main():
         if check_elem(elem):
             temp_enf = ff.main_fitness_cal(listname, elem)
         else:
-            temp_enf = [elem,0,0,0,0]
+            temp_enf = [elem,0,0,0,0,0,0]
 
         pop_fit.append(temp_enf)
 
@@ -57,12 +67,12 @@ def main():
         if check_elem(m_child1):
             child1_fit = ff.main_fitness_cal(listname,m_child1)
         else:
-            child1_fit = [m_child1,0,0,0,0]
+            child1_fit = [m_child1,0,0,0,0,0,0]
 
         if check_elem(m_child2):
             child2_fit = ff.main_fitness_cal(listname,m_child2)
         else:
-            child2_fit = [m_child2,0,0,0,0]
+            child2_fit = [m_child2,0,0,0,0,0,0]
 
         #inserting new childs into pop
         #first kid
@@ -74,8 +84,32 @@ def main():
         #delete the weakest individual (last elem because the sorted pop is in decreasing-style)
         del sorted_pop[len(sorted_pop)-1]
 
-    for line in sorted_pop:
-        print line
+    print sorted_pop[0]
+    return sorted_pop[0]
+
+def write_result(array):
+    path = src.read_temp_fscore()
+    temp_line = []
+    final_line =  []
+    out_file = open(path, "w")
+    csv_writer = csv.writer(out_file, delimiter='\t')
+
+    for i in range(len(array)):
+        line = array[i]
+        for j in range(len(line)):
+            if j == 0:
+                line2 = line[j]
+                for k in range(len(line2)):
+                    temp_line.append(line2[k])
+            else:
+                temp_line.append(line[j])
+
+        final_line.append(temp_line)
+        temp_line = []
+    for elem in final_line:
+        csv_writer.writerow(elem)
+    out_file.close()
+
 
 def check_elem(elem):
     counter = 0
@@ -94,9 +128,10 @@ def insert_kid(pop, new_kid):
     flag = True
     counter = 0
     init_pop = len(pop)
+    #print "this is new kid: " + str(new_kid[len(new_kid)-1])
     while flag and counter < len(pop):
 
-        if pop[counter][1] <= new_kid[1]:
+        if pop[counter][len(pop[counter])-1] <= new_kid[len(new_kid)-1]:
             pop.insert(counter,new_kid)
             flag = False
         else:
@@ -110,7 +145,7 @@ def insert_kid(pop, new_kid):
 def sort_pop(pop_fit):
     for i in range(len(pop_fit)-1,0,-1):
         j = i
-        while j > 0 and pop_fit[j-1][1] < pop_fit[j][1]:
+        while j > 0 and pop_fit[j-1][len(pop_fit[j-1])-1] < pop_fit[j][len(pop_fit[j])-1]:
             temp = pop_fit[j]
             pop_fit[j] = pop_fit[j-1]
             pop_fit[j-1] = temp
