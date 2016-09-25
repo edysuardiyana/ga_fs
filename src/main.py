@@ -9,7 +9,7 @@ import main_detection
 import selection_funct as sf
 
 
-#NUM_OF_FEATS = 81 #each sensors uses 27 features, 3 sensors (chest, waist, and thigh) use
+#NUM_OF_FEATS = 81 #each sensors uses 27 features, 3 sensors (chest, waist, and thigh) are used
 def main():
     num_sim = src.read_num_of_exp()
     tot_f = []

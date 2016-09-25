@@ -2,6 +2,8 @@ from sklearn.linear_model import LogisticRegression
 import statistics as stat
 import source_reader as src
 import csv
+from sklearn import tree,svm
+
 
 FALL_FORWARD = 2
 FALL_BACKWARD = 6
