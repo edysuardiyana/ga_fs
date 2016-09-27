@@ -48,7 +48,7 @@ def main_ga():
 
     counter_gen = 0
     print "==================================== start GA ======================"
-    while len(sorted_pop) < tot_pop and counter_gen < tot_gen:
+    while counter_gen < tot_gen: #len(sorted_pop) < tot_pop and 
         print "generation: " + str(counter_gen)
         counter_gen += 1
         #select 2 parents:

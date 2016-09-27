@@ -19,3 +19,17 @@ class init_pop_test(unittest.TestCase):
 
         self.assertEqual(3, len(pop_array))
         self.assertEqual(10, len(elem))
+
+    def compare_elem1_test(self):
+        elem = [1,1,1,1]
+        pop = [[1,1,1,1],[1,1,1,0],[1,0,1,1],[0,0,0,0]]
+
+        flag = ip.compare_element(elem,pop)
+        self.assertTrue(flag)
+
+    def compare_elem2_test(self):
+        elem = [1,1,1,1]
+        pop = [[1,0,1,0],[1,1,1,0],[1,0,1,1],[0,0,0,0]]
+
+        flag = ip.compare_element(elem,pop)
+        self.assertFalse(flag)

@@ -4,11 +4,14 @@ BIN_DIG = 1
 
 def gen_pop(n,nf): #n = number of population, nf = number of features
     pop_array = []
+    flag = True
     for i in range(n):
         if not pop_array:
             pop_array.append(gen_parent(nf))
         else:
-            temp_new_pop = gen_parent(nf)
+            while flag:
+                temp_new_pop = gen_parent(nf)
+                flag = compare_element(temp_new_pop, pop_array)
             pop_array.append(temp_new_pop)
     return pop_array
 
@@ -34,8 +37,8 @@ def compare_element(x, pop_list):
         for j in range(len(elem_pop)):
             if x[j] == elem_pop[j]:
                 counter = counter + 1
-            if counter == len(x):
-                flag = True
+        if counter == len(x):
+            flag = True
 
     return flag
 
