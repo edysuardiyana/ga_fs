@@ -28,7 +28,7 @@ def accuracy_measure(list_name):
     recall = []
     total_training_set = []
     total_class_training = []
-    clf = LogisticRegression(C = 1e8)
+    clf = LogisticRegression(C = 1e8) #svm.SVC()#LogisticRegression(C = 1e8)
 
     for name in list_name:
         for sub_name in list_name:

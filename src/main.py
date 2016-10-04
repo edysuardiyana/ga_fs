@@ -48,7 +48,7 @@ def main_ga():
 
     counter_gen = 0
     print "==================================== start GA ======================"
-    while counter_gen < tot_gen: #len(sorted_pop) < tot_pop and 
+    while counter_gen < tot_gen: #len(sorted_pop) < tot_pop and
         print "generation: " + str(counter_gen)
         counter_gen += 1
         #select 2 parents:
@@ -86,6 +86,8 @@ def main_ga():
 
     print sorted_pop[0]
     return sorted_pop[0]
+
+def euclidean_distance_test(new_kid )
 
 def write_result(array):
     path = src.read_temp_fscore()

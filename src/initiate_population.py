@@ -9,6 +9,7 @@ def gen_pop(n,nf): #n = number of population, nf = number of features
         if not pop_array:
             pop_array.append(gen_parent(nf))
         else:
+            #checking similar parents
             while flag:
                 temp_new_pop = gen_parent(nf)
                 flag = compare_element(temp_new_pop, pop_array)
