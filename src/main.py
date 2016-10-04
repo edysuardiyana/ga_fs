@@ -87,7 +87,7 @@ def main_ga():
     print sorted_pop[0]
     return sorted_pop[0]
 
-def euclidean_distance_test(new_kid )
+#def euclidean_distance_test(new_kid )
 
 def write_result(array):
     path = src.read_temp_fscore()
