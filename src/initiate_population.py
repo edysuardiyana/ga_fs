@@ -1,19 +1,31 @@
 import random
+import main
+import fitness_function as ff
+import math
 
 BIN_DIG = 1
 
-def gen_pop(n,nf): #n = number of population, nf = number of features
+def gen_pop(n,nf, listname): #n = number of population, nf = number of features
     pop_array = []
     flag = True
-    for i in range(n):
+    #for i in range(n):
+    while len(pop_array) < n:
         if not pop_array:
-            pop_array.append(gen_parent(nf))
+            raw_pop = gen_parent(nf)
+            temp_pop = ff.main_fitness_cal(listname, raw_pop)
+            pop_array.append(temp_pop)
         else:
             #checking similar parents
             while flag:
-                temp_new_pop = gen_parent(nf)
-                flag = compare_element(temp_new_pop, pop_array)
-            pop_array.append(temp_new_pop)
+                temp_raw_pop = gen_parent(nf)
+                flag = compare_element(temp_raw_pop, pop_array)
+
+            temp_new_pop = ff.main_fitness_cal(listname,temp_raw_pop)
+
+            pop_array = main.insert_kid(pop_array, temp_new_pop)
+
+    print "this is pop_array"
+    print len(pop_array)
     return pop_array
 
 def gen_parent(n): # n is the length of features
@@ -32,7 +44,7 @@ def compare_element(x, pop_list):
     count_index = 0
     flag = False
     while not flag and count_index < len(pop_list):
-        elem_pop = pop_list[count_index]
+        elem_pop = pop_list[count_index][0]
         count_index = count_index + 1
         counter = 0
         for j in range(len(elem_pop)):
@@ -42,9 +54,3 @@ def compare_element(x, pop_list):
             flag = True
 
     return flag
-
-def main():
-    print gen_parent(10)
-
-if __name__ == '__main__':
-    main()

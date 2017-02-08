@@ -3,7 +3,7 @@ import ConfigParser
 def configParser(section):
 
     Config = ConfigParser.ConfigParser()
-    Config.read('/home/edysuardiyana/edy/git/ga_fs/src/path.ini')
+    Config.read('/Users/ArseneLupin/Documents/edy/ga_fs_new/ga_fs/src/path.ini')
     dict1 = {}
     options = Config.options(section)
     for option in options:
@@ -41,21 +41,21 @@ def combined_path(name):
     source_path = path + str(name) + ".csv"
     return source_path
 
-def read_num_pop():
-    num_of_pop = int(configParser("DataPath")['init_pop_size'])
-    return num_of_pop
+def read_init_size():
+    path = configParser("DataPath")['init_pop_size']
+    init_array = path.split(",")
+    fin_array = [int(i) for i in init_array[:len(init_array)]]
+    return fin_array
 
 def read_gen_size():
     num_of_gen = int(configParser("DataPath")['individual_size'])
     return num_of_gen
 
 def read_tot_gen():
-    tot_gen = int(configParser("DataPath")['tot_gen'])
-    return tot_gen
-
-def read_tot_pop_size():
-    tot_pop_size = int(configParser("DataPath")['tot_pop_size'])
-    return tot_pop_size
+    tot_gen = configParser("DataPath")['tot_gen']
+    new_tot = tot_gen.split(",")
+    fin_array = [int(i) for i in new_tot[:len(new_tot)]]
+    return fin_array
 
 def read_p_mutate():
     mutation_rate = float(configParser("DataPath")['p_mutate'])
@@ -68,11 +68,11 @@ def read_p_cover():
 def read_num_position():
     pos = configParser("DataPath")['position']
     num_pos = pos.split(",")
-    return len(num_pos)
+    return num_pos
 
-def read_temp_fscore():
+def read_temp_fscore(exp,init):
     path = configParser("DataPath")['result_temp']
-    source_path = path + "result.csv"
+    source_path = path +"init" + str(init)+ "_" + "result_gen_" + str(exp) +".csv"
     return source_path
 
 def read_num_of_exp():

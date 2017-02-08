@@ -14,7 +14,7 @@ def main_features(data_vm, data_x, data_y, data_z, freq_rate, elem_pop, pos):
     imp = 3 * freq_rate
     post_win = 5 * freq_rate
 
-    num_of_seg = len(elem_pop)/src.read_num_position()
+    num_of_seg = len(elem_pop)/len(src.read_num_position())
     instance = []
     if pos == "chest":
         chest_elem = elem_pop[:num_of_seg]

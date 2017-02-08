@@ -1,5 +1,6 @@
 import unittest
 import initiate_population as ip
+import main
 
 class init_pop_test(unittest.TestCase):
     def zero_pop_test(self):

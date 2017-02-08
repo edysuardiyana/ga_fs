@@ -12,39 +12,34 @@ import selection_funct as sf
 #NUM_OF_FEATS = 81 #each sensors uses 27 features, 3 sensors (chest, waist, and thigh) are used
 def main():
     num_sim = src.read_num_of_exp()
-    tot_f = []
-    for i in range(num_sim):
-        print "experiment number: " +str(i)
-        temp_f = main_ga()
-        tot_f.append(temp_f)
+    init_num = src.read_init_size() #initial population
+    num_of_gen = src.read_tot_gen()#number of generation
 
-    write_result(tot_f)
+    for init in init_num:
+        print "Inital population number: " + str(init)
+        for tot in num_of_gen:
+            tot_f = []
+            print "Total number of generation: "+ str(tot)
+            for i in range(num_sim):
+                print "experiment number: " +str(i)
+                temp_f = main_ga(tot, init)
+                tot_f.append(temp_f)
 
-def main_ga():
+            write_result(tot_f, tot, init)
+
+def main_ga(tot_gen, init):
     pop_fit = []
     # generate initial population
-    print "generate individual for initial population"
-    num_of_pop = src.read_num_pop()
-    num_of_feats = src.read_gen_size()
-    population = ip.gen_pop(num_of_pop, num_of_feats)
-
-    #read names from list
     listname = read_name()
 
-    #calculate fitness from each individual from pop
-    for elem in population:
-        if check_elem(elem):
-            temp_enf = ff.main_fitness_cal(listname, elem)
-        else:
-            temp_enf = [elem,0,0,0,0,0,0]
-
-        pop_fit.append(temp_enf)
+    print "generate individual for initial population"
+    num_of_feats = src.read_gen_size()
+    population = ip.gen_pop(init, num_of_feats, listname)
 
     #sort (decreasing style) the individual based on fitnes function
-    sorted_pop = sort_pop(pop_fit)
+    sorted_pop = sort_pop(population)
 
-    tot_pop = src.read_tot_pop_size()
-    tot_gen = src.read_tot_gen()
+    print sorted_pop
 
     counter_gen = 0
     print "==================================== start GA ======================"
@@ -76,6 +71,7 @@ def main_ga():
 
         #inserting new childs into pop
         #first kid
+
         sorted_pop = insert_kid(sorted_pop,child1_fit)
 
         #second kid
@@ -87,10 +83,9 @@ def main_ga():
     print sorted_pop[0]
     return sorted_pop[0]
 
-#def euclidean_distance_test(new_kid )
 
-def write_result(array):
-    path = src.read_temp_fscore()
+def write_result(array, tot_gen, init):
+    path = src.read_temp_fscore(tot_gen, init)
     temp_line = []
     final_line =  []
     out_file = open(path, "w")
@@ -165,6 +160,30 @@ def read_name():
             name_list.append(name)
 
     return name_list
+
+#def euclid_dist(f_elem, l_elem):
+    #listname = main.read_name()
+    #f_fitness = ff.main_fitness_cal(listname, f_elem)
+    #l_fitness = ff.main_fitness_cal(listname, l_elem)
+    #[elem, prec, rec, f_score, c_time, w_time, t_time, runtime, sens_place, temp_fitness]
+    #f_new_fit = [f_elem[3],f_elem[7]]
+    #l_new_fit = [l_elem[3],l_elem[7]]
+
+    #dist = euclid(f_new_fit, l_new_fit)
+
+    #return dist
+
+#def euclid(x,y):
+#    a = dist_pow(x[0],y[0])
+#    b = dist_pow(x[1],y[1])
+    #c = dist_pow(x[2],y[2])
+#    dist = math.sqrt(a+b)
+#    new_dist = round(dist,3)
+#    return new_dist
+
+#def dist_pow(x,y):
+#    dist = (x-y)*(x-y)
+#    return dist
 
 
 if __name__ == '__main__':
