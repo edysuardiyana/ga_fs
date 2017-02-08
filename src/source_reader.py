@@ -1,9 +1,11 @@
 import ConfigParser
+import os
 
 def configParser(section):
-
+    script_dir = os.path.dirname(__file__)
+    real_path = os.path.join(script_dir,'path.ini')
     Config = ConfigParser.ConfigParser()
-    Config.read('/Users/ArseneLupin/Documents/edy/ga_fs_new/ga_fs/src/path.ini')
+    Config.read(real_path)
     dict1 = {}
     options = Config.options(section)
     for option in options:
