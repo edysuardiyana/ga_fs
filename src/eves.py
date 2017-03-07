@@ -22,7 +22,7 @@ FALL_SET = set([FALL_FORWARD,
 
 
 def eves_window(data_x, data_y, data_z, annot, freq_rate, elem_pop, pos):
-    size_active_win = (3 * freq_rate) + 1
+    size_active_win = (3 * freq_rate) #discard 1
     feature_win = 5 * freq_rate
     buffer_size = freq_rate
     buffer_x = []
@@ -36,14 +36,16 @@ def eves_window(data_x, data_y, data_z, annot, freq_rate, elem_pop, pos):
     instances_seq = []
 
     temp_max = 0
-    temp_max_2 = 1.6
     index_temp_2 = 0
+    temp_max_2 = 1.6
     state_1 = False
     state_2 = False
     state_3 = False
 
     state_2_flag = False
     for i in range(0,len(data_x)):
+        #print "data number : "+str(i)
+
         buffer_x.append(data_x[i])
         buffer_y.append(data_y[i])
         buffer_z.append(data_z[i])
@@ -51,6 +53,7 @@ def eves_window(data_x, data_y, data_z, annot, freq_rate, elem_pop, pos):
         buffer_vm.append(svm_val)
         buffer_annot.append(annot[i])
 
+        #print buffer_vm
         if not state_1:
             if len(buffer_vm) == buffer_size + 1:
                 state_1 = True
@@ -58,6 +61,7 @@ def eves_window(data_x, data_y, data_z, annot, freq_rate, elem_pop, pos):
                 state_1 = False
 
         if state_1:
+            #print "state 1"
             state_2_flag = False
             if buffer_vm[len(buffer_vm)-1] > 1.6:
                 state_2 = True
@@ -73,6 +77,7 @@ def eves_window(data_x, data_y, data_z, annot, freq_rate, elem_pop, pos):
                 state_1 = False
 
         elif state_2:
+            #print "state 2"
             state_2_flag = False
             if buffer_vm[len(buffer_vm)-1] > temp_max:
                 temp_max = buffer_vm[len(buffer_vm)-1]
@@ -82,26 +87,28 @@ def eves_window(data_x, data_y, data_z, annot, freq_rate, elem_pop, pos):
                 del buffer_z[:len(buffer_z)-(buffer_size + 1)]
                 del buffer_annot[:len(buffer_annot)-(buffer_size + 1)]
             else:
-                if len(buffer_vm) == size_active_win:
+                if len(buffer_vm) >= size_active_win: #changed to >=
                     state_2 = False
                     state_3 = True
         elif state_3 :
-            if len(buffer_vm) == feature_win + 1:
-                instance, runtime = ft_stage.main_features(
+            #print "state 3"
+            if len(buffer_vm) >= feature_win + 1: #changed to >=
+                instance, runtime = ft_stage.calc_features(
                 buffer_vm[:len(buffer_vm)-1],
                 buffer_x[:len(buffer_x)-1],
                 buffer_y[:len(buffer_y)-1],
                 buffer_z[:len(buffer_z)-1],
-                freq_rate, elem_pop, pos)
+                freq_rate)
+
                 instance.append(buffer_annot[freq_rate])
+
                 if buffer_annot[freq_rate] in FALL_SET:
                     instance.append(1)
                 else:
                     instance.append(0)
 
-                temp_runtime = [0,runtime] # to avoid error in writing into CSV
                 instances_seq.append(instance)
-                run_time_seq.append(temp_runtime)
+                run_time_seq.append(runtime)
 
                 temp_max = temp_max_2
                 if state_2_flag:
@@ -119,10 +126,11 @@ def eves_window(data_x, data_y, data_z, annot, freq_rate, elem_pop, pos):
                     del buffer_annot[:len(buffer_annot) - buffer_size]
 
                     state_1 = True
-
+                temp_max_2 = 1.6 #resetting temp_max_2
                 state_3 = False
             else:
                 if buffer_vm[len(buffer_vm)-1] > temp_max_2:
+                    #print "get here"
                     temp_max_2 = buffer_vm[len(buffer_vm)-1]
                     index_temp_2 = len(buffer_vm)-1
                     state_2_flag = True
